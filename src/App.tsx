@@ -1,10 +1,11 @@
 import React from "react";
 import AppNavigatorWeb from "./navigation/AppNavigator.web";
-import { StoreProvider } from "./store/StoreContext";
+import { ThingsProvider } from "./store/ThingsContext";
+
 import "./App.css";
 
 export default () => (
-  <StoreProvider>
+  <ThingsProvider>
     <AppNavigatorWeb />
-  </StoreProvider>
+  </ThingsProvider>
 );
