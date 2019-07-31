@@ -1,5 +1,6 @@
 import { AsyncStorage } from "react-native";
-import { FetchData } from "../store/interfaces";
+
+export type FetchData<T> = { loading: boolean; result?: T; error?: string };
 
 const GATEWAY_URL = "https://hotf.mozilla-iot.org";
 
@@ -14,7 +15,6 @@ export async function doFetch<T>(
     const res = await fetch(GATEWAY_URL + input, {
       headers: {
         "Content-Type": "application/json",
-
         Authorization: `Bearer ${userToken}`,
         ...init.headers
       },

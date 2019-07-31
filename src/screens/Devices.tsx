@@ -1,72 +1,37 @@
 import React, { useContext } from "react";
 import { Switch, Text, View } from "react-native";
-import { StoreContext } from "../store/StoreContext";
-import {
-  Thing,
-  ThingProperties,
-  FetchData,
-  EnhancedActions
-} from "../store/interfaces";
+import { ThingsContext } from "../store/ThingsContext";
+// import { ThingValuesContext } from "../store/thing-values/ThingValuesContext";
+import { ThingElement } from "../components/Thing/Thing";
 
-type Props = {
-  thing: Thing;
-  getData(href: string): void;
-  thingProperties?: FetchData<ThingProperties>;
-  updateThing: EnhancedActions["updateThingProperties"];
-};
+// @TODO check if things can have own provider (do fetch actions for values, and state represents values )
+// const {
+//   state: { values },
+//   actions: { updateValues }
+// } = useContext(StoreContext);
+// <ThingProvider></ThingProvider>
 
-const ThingElement: React.FC<Props> = ({
-  thing: { href, title },
-  getData,
-  updateThing,
-  thingProperties
-}) => {
-  const fetchData = React.useCallback(
-    href => !thingProperties && getData(href),
-    [getData, thingProperties]
-  );
-  React.useMemo(() => fetchData(href), [fetchData, href]);
-  const thingFetchResults = thingProperties && thingProperties.result;
+// function Button() {
+//   let appContextValue = useContext(AppContext);
+//   let theme = appContextValue.theme; // Your "selector"
+//   return <ThemedButton theme={theme} />;
+// }
 
-  return (
-    <View>
-      <p>{title}</p>
-      {thingFetchResults && (
-        <React.Fragment>
-          <Text>{`level ${thingFetchResults.level}`}</Text>
-          <Text>{`temp ${thingFetchResults.colorTemperature}`}</Text>
-          <Switch
-            value={thingFetchResults.on}
-            onValueChange={on => {
-              console.log("changed to", { ...thingFetchResults, on });
-              updateThing(href, { ...thingFetchResults, on });
-              // set state and fetch
-            }}
-          />
-        </React.Fragment>
-      )}
-    </View>
-  );
-};
+// const ThemedButton = memo(({ theme }) => {
+//   // The rest of your rendering logic
+//   return <ExpensiveTree className={theme} />;
+// });
 
 export const DevicesScreen = () => {
   const {
-    state: { things, properties },
-    actions: { getThings, getThingProperties, updateThingProperties }
-  } = useContext(StoreContext);
-
-  React.useMemo(() => getThings(), []);
+    state: { things },
+    actions: { updateThing }
+  } = useContext(ThingsContext);
 
   if (things.loading) return <Text>"Loading"</Text>;
   if (things.error) return <Text>"error "</Text>;
 
   return things.result!.map(thing => (
-    <ThingElement
-      key={thing.id}
-      thing={thing}
-      thingProperties={properties[thing.href]}
-      updateThing={updateThingProperties}
-      getData={getThingProperties}
-    />
+    <ThingElement key={thing.id} thing={thing} updateThing={updateThing} />
   ));
 };
