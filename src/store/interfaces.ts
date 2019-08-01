@@ -44,7 +44,7 @@ type ThingLinksRaw = {
 type ThingPropertyNormalized = {
   link: string;
   title: string;
-  mininum: number;
+  minimum: number;
   maximum: number;
 };
 

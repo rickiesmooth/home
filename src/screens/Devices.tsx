@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Text, View } from "react-native";
+import { Switch, Text, View, StyleSheet, ScrollView } from "react-native";
 import { ThingsContext } from "../store/ThingsContext";
 // import { ThingValuesContext } from "../store/thing-values/ThingValuesContext";
 import { ThingElement } from "../components/Thing/Thing";
@@ -30,8 +30,18 @@ export const DevicesScreen = () => {
 
   if (things.loading) return <Text>"Loading"</Text>;
   if (things.error) return <Text>"error "</Text>;
-
-  return things.result!.map(thing => (
-    <ThingElement key={thing.id} thing={thing} updateThing={updateThing} />
-  ));
+  return (
+    <ScrollView style={styles.container}>
+      {things.result!.map(thing => (
+        <ThingElement key={thing.id} thing={thing} updateThing={updateThing} />
+      ))}
+    </ScrollView>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  }
+});
