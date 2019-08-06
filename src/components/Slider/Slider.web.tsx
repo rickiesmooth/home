@@ -5,7 +5,9 @@ import {
   PanResponder,
   StyleSheet,
   View,
-  I18nManager
+  I18nManager,
+  PanResponderInstance,
+  PanResponderGestureState
 } from "react-native";
 
 import applyNativeMethods from "react-native-web/dist/modules/applyNativeMethods";
@@ -26,9 +28,9 @@ const DEFAULT_ANIMATION_CONFIGS = {
   }
 };
 
-class Slider extends React.Component {
-  _panResponder: PanResponder;
-  _previousLeft: number;
+class Slider extends React.Component<any> {
+  _panResponder: PanResponderInstance | null = null;
+  _previousLeft: number | null = null;
   _store: {
     [key: string]: { width: number; height: number; [x: string]: any };
   } = {};
@@ -53,7 +55,7 @@ class Slider extends React.Component {
 
   _value = new Animated.Value(this.props.value);
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
@@ -107,7 +109,7 @@ class Slider extends React.Component {
       // extrapolate: 'clamp',
     });
 
-    const valueVisibleStyle = {};
+    const valueVisibleStyle: any = {};
     if (!allMeasured) {
       valueVisibleStyle.opacity = 0;
     }
@@ -148,7 +150,7 @@ class Slider extends React.Component {
         />
         <View
           style={[defaultStyles.touchArea, touchOverflowStyle]}
-          {...this._panResponder.panHandlers}
+          {...this._panResponder!.panHandlers}
         >
           {debugTouchArea === true &&
             this._renderDebugThumbTouchRect(thumbLeft)}
@@ -190,7 +192,10 @@ class Slider extends React.Component {
     this._fireChangeEvent("onSlidingStart");
   };
 
-  _handlePanResponderMove = (e: Object, gestureState: Object) => {
+  _handlePanResponderMove = (
+    e: Object,
+    gestureState: PanResponderGestureState
+  ) => {
     if (this.props.disabled) {
       return;
     }
@@ -199,12 +204,15 @@ class Slider extends React.Component {
     this._fireChangeEvent("onValueChange");
   };
 
-  _handlePanResponderRequestEnd(e: Object, gestureState: Object) {
+  _handlePanResponderRequestEnd() {
     // Should we allow another component to take over this pan?
     return false;
   }
 
-  _handlePanResponderEnd = (e: Object, gestureState: Object) => {
+  _handlePanResponderEnd = (
+    e: Object,
+    gestureState: PanResponderGestureState
+  ) => {
     if (this.props.disabled) {
       return;
     }
@@ -323,7 +331,7 @@ class Slider extends React.Component {
   _getTouchOverflowSize = () => {
     const { state } = this;
 
-    const size = {};
+    const size: Partial<{ width: number; height: number }> = {};
     if (state.allMeasured === true) {
       size.width = Math.max(0, THUMB_TOUCH_SIZE - state.thumbSize.width);
       size.height = Math.max(0, THUMB_TOUCH_SIZE - state.containerSize.height);
@@ -354,7 +362,7 @@ class Slider extends React.Component {
     return touchOverflowStyle;
   };
 
-  _thumbHitTest = ({ nativeEvent }: Object) => {
+  _thumbHitTest = ({ nativeEvent }: any) => {
     const thumbTouchRect = this._getThumbTouchRect();
     const offset = getOffset();
     return thumbTouchRect.containsPoint(
@@ -378,7 +386,7 @@ class Slider extends React.Component {
     );
   };
 
-  _renderDebugThumbTouchRect = thumbLeft => {
+  _renderDebugThumbTouchRect = (thumbLeft: Animated.AnimatedInterpolation) => {
     const thumbTouchRect = this._getThumbTouchRect();
     const positionStyle = {
       left: thumbLeft,

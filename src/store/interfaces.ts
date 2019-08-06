@@ -67,8 +67,14 @@ export interface ThingModel {
   href: string;
   values: Partial<ThingModelValues>; // <== dynamic properties (e.g. currentValue)
   properties: Partial<ThingModelProperties>; // <== static properties that relate to values (e.g. minmax)
+  closingWs: boolean;
+  ws?: WebSocket;
+  base: string;
+  wsBackoff: number;
   fetchValues(): void;
-  updateValue(val: Partial<ThingModelValues>): void;
+  updateThing(val: Partial<ThingModelValues>): void;
+  updateCallback(thing: ThingModel): void;
+  connected: boolean;
 }
 
 export type State = {
