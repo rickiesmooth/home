@@ -10,18 +10,19 @@ type Props = {
 
 export const ThingElement: React.FC<Props> = React.memo(({ thing }) => {
   const { title, values, updateThing, properties } = thing;
-  console.log(thing);
 
   return (
     <View
       style={{
-        backgroundColor: "lightblue",
-        marginVertical: 8,
-        paddingHorizontal: 24,
-        maxWidth: 400
+        borderColor: "#EEE",
+        borderRadius: 8,
+        borderWidth: 1,
+        padding: 24,
+        width: 400,
+        margin: 8
       }}
     >
-      <p>{title}</p>
+      <Text style={{ marginBottom: 8 }}>{title}</Text>
       {values && (
         <React.Fragment>
           <Text>{`level ${values.level}`}</Text>

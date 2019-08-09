@@ -11,7 +11,10 @@ export const DevicesScreen = () => {
   if (things.loading) return <Text>"Loading"</Text>;
   if (things.error) return <Text>"error "</Text>;
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       {things.result!.map(thing => (
         <ThingElement key={thing.id} thing={thing} />
       ))}
@@ -21,7 +24,13 @@ export const DevicesScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff"
+    flex: 1
+  },
+  contentContainer: {
+    flexDirection: "row",
+    maxWidth: 1300,
+    marginHorizontal: "auto",
+    flexWrap: "wrap",
+    justifyContent: "center"
   }
 });
