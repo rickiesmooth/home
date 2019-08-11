@@ -1,72 +1,43 @@
 import React, { useContext } from "react";
-import { Switch, Text, View } from "react-native";
-import { StoreContext } from "../store/StoreContext";
-import {
-  Thing,
-  ThingProperties,
-  FetchData,
-  EnhancedActions
-} from "../store/interfaces";
-
-type Props = {
-  thing: Thing;
-  getData(href: string): void;
-  thingProperties?: FetchData<ThingProperties>;
-  updateThing: EnhancedActions["updateThingProperties"];
-};
-
-const ThingElement: React.FC<Props> = ({
-  thing: { href, title },
-  getData,
-  updateThing,
-  thingProperties
-}) => {
-  const fetchData = React.useCallback(
-    href => !thingProperties && getData(href),
-    [getData, thingProperties]
-  );
-  React.useMemo(() => fetchData(href), [fetchData, href]);
-  const thingFetchResults = thingProperties && thingProperties.result;
-
-  return (
-    <View>
-      <p>{title}</p>
-      {thingFetchResults && (
-        <React.Fragment>
-          <Text>{`level ${thingFetchResults.level}`}</Text>
-          <Text>{`temp ${thingFetchResults.colorTemperature}`}</Text>
-          <Switch
-            value={thingFetchResults.on}
-            onValueChange={on => {
-              console.log("changed to", { ...thingFetchResults, on });
-              updateThing(href, { ...thingFetchResults, on });
-              // set state and fetch
-            }}
-          />
-        </React.Fragment>
-      )}
-    </View>
-  );
-};
+import { Text, StyleSheet, ScrollView } from "react-native";
+import { ThingsContext } from "../store/ThingsContext";
+import { ThingElement } from "../components/Thing/Thing";
 
 export const DevicesScreen = () => {
   const {
-    state: { things, properties },
-    actions: { getThings, getThingProperties, updateThingProperties }
-  } = useContext(StoreContext);
+    state: { things },
+    actions
+  } = useContext(ThingsContext);
 
-  React.useMemo(() => getThings(), []);
+  React.useMemo(() => {
+    if (things.loading) {
+      actions.initThings();
+    }
+  }, [things.loading, actions]);
 
   if (things.loading) return <Text>"Loading"</Text>;
   if (things.error) return <Text>"error "</Text>;
-
-  return things.result!.map(thing => (
-    <ThingElement
-      key={thing.id}
-      thing={thing}
-      thingProperties={properties[thing.href]}
-      updateThing={updateThingProperties}
-      getData={getThingProperties}
-    />
-  ));
+  return (
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
+      {things.result!.map(thing => (
+        <ThingElement key={thing.id} thing={thing} />
+      ))}
+    </ScrollView>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  contentContainer: {
+    flexDirection: "row",
+    maxWidth: 1300,
+    marginHorizontal: "auto",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  }
+});

@@ -1,10 +1,16 @@
 import React from "react";
 import AppNavigatorWeb from "./navigation/AppNavigator.web";
-import { StoreProvider } from "./store/StoreContext";
+import { ThingsProvider } from "./store/ThingsContext";
+
+import Amplify from "aws-amplify";
+import awsconfig from "../aws-exports";
+
 import "./App.css";
 
+Amplify.configure(awsconfig);
+
 export default () => (
-  <StoreProvider>
+  <ThingsProvider>
     <AppNavigatorWeb />
-  </StoreProvider>
+  </ThingsProvider>
 );

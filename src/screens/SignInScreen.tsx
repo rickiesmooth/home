@@ -1,9 +1,9 @@
 import React from "react";
 import { View, TextInput, Button, AsyncStorage } from "react-native";
 
-import { doFetch } from "../utils/useFetch";
+import { doFetch, FetchData } from "../utils/useFetch";
 import { Redirect } from "../navigation/Redirect";
-import { FetchData } from "../store/interfaces";
+import { ThingsContext } from "../store/ThingsContext";
 // import "./App.css";
 
 const LoadUser = ({ email, password }: any) => {
@@ -12,6 +12,7 @@ const LoadUser = ({ email, password }: any) => {
   >({
     loading: true
   });
+
   React.useEffect(() => {
     const postUser = async () => {
       const userToken = await AsyncStorage.getItem("userToken");

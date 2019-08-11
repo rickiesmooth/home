@@ -1,47 +1,46 @@
-import { State, Action, ACTION_TYPES } from "./interfaces";
+import { State, Action, ACTION_TYPES, ThingModel } from "./interfaces";
 
 export const initialState: State = {
+  loggedIn: false,
   things: {
-    loading: false,
+    loading: true,
     result: []
-  },
-  properties: {}
+  }
 };
 
-export const things = (state: State, action: Action): State => {
+const updateProperty = (things: ThingModel[], thing: ThingModel) =>
+  things.map(item => {
+    if (item.id !== thing.id) {
+      return item;
+    }
+    return thing;
+  });
+
+export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case ACTION_TYPES.THINGS_FETCH:
+    case ACTION_TYPES.THINGS_INIT:
+      const { result, loading, error } = action.data;
+      return {
+        ...state,
+        things: {
+          loading,
+          error,
+          result
+        }
+      };
+
+    case ACTION_TYPES.PROPERTIES_UPDATE:
       return {
         ...state,
         things: {
           ...state.things,
-          ...action.data
+          result: updateProperty(state.things.result!, action.data)
         }
       };
-    case ACTION_TYPES.PROPERTIES_FETCH:
+    case ACTION_TYPES.USER_LOGIN:
       return {
         ...state,
-        properties: {
-          ...state.properties,
-          [`${action.href}`]: action.data
-        }
-      };
-    case ACTION_TYPES.PROPERTIES_UPDATE:
-      const currentProperties = state.properties;
-      const targetProperty = currentProperties[action.href];
-
-      return {
-        ...state,
-        properties: {
-          ...currentProperties,
-          [`${action.href}`]: {
-            ...targetProperty,
-            result: {
-              ...targetProperty.result,
-              ...action.data
-            }
-          }
-        }
+        loggedIn: !!action.data
       };
     default:
       throw new Error();

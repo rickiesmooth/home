@@ -4,14 +4,7 @@ frontend:
     preBuild:
       commands:
         - yarn global add expo-cli
-        - >
-          if [ -f yarn.lock ]; then
-            yarn
-          elif [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+        - yarn
     build:
       commands:
         - expo build:web
