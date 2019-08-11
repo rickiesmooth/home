@@ -7,6 +7,8 @@ import {
 } from "./interfaces";
 import { doFetch } from "../utils/useFetch";
 import { API } from "../utils/api";
+import { debounce } from "../utils/throttle";
+import { whereEq } from "ramda";
 
 function normalizeRawThingProperties(
   rawItem: ThingPropertiesRaw
@@ -75,17 +77,20 @@ export class Thing implements ThingModel {
     this.updateCallback(this);
   };
 
-  // UPDATE VALUE
-  updateThing = (value: Partial<ThingModelValues>) => {
-    Object.entries(value).forEach(([key, val]) => {
+  debouncedFetch = debounce<[string, Partial<ThingModelValues>]>(
+    100,
+    ([key, val]) => {
       doFetch<ThingModelValues>(`${this.href}/properties/${key}`, {
         method: "PUT",
         body: JSON.stringify({
           [key]: val
         })
       });
-    });
+    }
+  );
 
+  updateThing = (value: Partial<ThingModelValues>) => {
+    Object.entries(value).forEach(args => this.debouncedFetch(args));
     this.onPropertyStatus(value);
   };
 
@@ -112,26 +117,32 @@ export class Thing implements ThingModel {
         // if (Object.keys(this.eventDescriptions).length == 0) {
         //   return;
         // }
-        // const msg = {
-        //   messageType: "addEventSubscription",
-        //   data: {}
-        // };
+        const msg = {
+          messageType: "addEventSubscription",
+          data: {}
+        };
         // for (const name in this.eventDescriptions) {
         //   msg.data[name] = {};
         // }
-        // this.ws.send(JSON.stringify(msg));
+        this.ws!.send(JSON.stringify(msg));
       },
       { once: true }
     );
 
-    const onEvent = (event: any) => {
+    const debouncedPropertyStatusChangedCheck = debounce<
+      Partial<ThingModelValues>
+    >(1000, message => {
+      if (!whereEq(message, this.values)) {
+        this.onPropertyStatus(message);
+      }
+    });
+
+    const onEvent = (event: { data: string }) => {
       const message = JSON.parse(event.data);
 
       switch (message.messageType) {
         case "propertyStatus":
-          console.log(message);
-
-          this.onPropertyStatus(message.data);
+          debouncedPropertyStatusChangedCheck(message.data);
           break;
         case "event":
           // this.onEvent(message.data);
@@ -170,6 +181,7 @@ export class Thing implements ThingModel {
     this.ws.addEventListener("close", cleanup);
     this.ws.addEventListener("error", cleanup);
   }
+
   onConnected(connected: boolean) {
     this.connected = connected;
   }

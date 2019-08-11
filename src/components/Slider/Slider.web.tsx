@@ -7,16 +7,23 @@ import {
   View,
   I18nManager,
   PanResponderInstance,
-  PanResponderGestureState
+  PanResponderGestureState,
+  SliderProps,
+  PanResponderCallbacks,
+  LayoutChangeEvent,
+  ViewStyle,
+  LayoutRectangle
 } from "react-native";
 
-import applyNativeMethods from "react-native-web/dist/modules/applyNativeMethods";
-
+const applyNativeMethods = require("react-native-web/dist/modules/applyNativeMethods")
+  .default;
 const TRACK_SIZE = 4;
 const THUMB_SIZE = 20;
 const THUMB_TOUCH_SIZE = 40;
 
-const DEFAULT_ANIMATION_CONFIGS = {
+type ANIMATION_TYPES = "spring" | "timing";
+
+const DEFAULT_ANIMATION_CONFIGS: Record<ANIMATION_TYPES, any> = {
   spring: {
     friction: 7,
     tension: 100
@@ -28,11 +35,25 @@ const DEFAULT_ANIMATION_CONFIGS = {
   }
 };
 
-class Slider extends React.Component<any> {
+interface SliderComponentProps extends SliderProps {
+  value: number;
+  minimumValue: number;
+  maximumValue: number;
+  step: number;
+  minimumTrackTintColor: string;
+  maximumTrackTintColor: string;
+  debugTouchArea: boolean;
+  animationType: ANIMATION_TYPES;
+  animateTransitions: boolean;
+  animationConfig: any;
+  onSlidingStart(): void;
+}
+
+class Slider extends React.Component<SliderComponentProps> {
   _panResponder: PanResponderInstance | null = null;
   _previousLeft: number | null = null;
   _store: {
-    [key: string]: { width: number; height: number; [x: string]: any };
+    [key: string]: { width: number; height: number; [x: string]: number };
   } = {};
 
   static defaultProps = {
@@ -43,19 +64,19 @@ class Slider extends React.Component<any> {
     minimumTrackTintColor: "#009688",
     maximumTrackTintColor: "#939393",
     debugTouchArea: false,
-    animationType: "timing"
+    animationType: "timing",
+    animateTransitions: false
   };
 
   state = {
     containerSize: { width: 0, height: 0 },
     trackSize: { width: 0, height: 0 },
     thumbSize: { width: 0, height: 0 },
-    allMeasured: false
+    allMeasured: false,
+    animatedValue: new Animated.Value(this.props.value)
   };
 
-  _value = new Animated.Value(this.props.value);
-
-  constructor(props: any) {
+  constructor(props: SliderComponentProps) {
     super(props);
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
@@ -68,7 +89,7 @@ class Slider extends React.Component<any> {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: SliderComponentProps) {
     const newValue = nextProps.value;
 
     if (this.props.value !== newValue) {
@@ -89,27 +110,24 @@ class Slider extends React.Component<any> {
       thumbTintColor,
       style,
       debugTouchArea,
-      /* eslint-disable */
       animationType,
-      /* eslint-enable */
       ...other
     } = this.props;
     const { containerSize, thumbSize, allMeasured } = this.state;
-    const thumbLeft = this._value.interpolate({
+    const thumbLeft = this.state.animatedValue.interpolate({
       inputRange: [minimumValue, maximumValue],
       outputRange: I18nManager.isRTL
         ? [0, -(containerSize.width - thumbSize.width)]
         : [0, containerSize.width - thumbSize.width]
       // extrapolate: 'clamp',
     });
-    const minimumTrackWidth = this._value.interpolate({
+    const minimumTrackWidth = this.state.animatedValue.interpolate({
       inputRange: [minimumValue, maximumValue],
       outputRange: [0, containerSize.width - thumbSize.width]
       //extrapolate: 'clamp',
-      // extrapolate: 'clamp',
     });
 
-    const valueVisibleStyle: any = {};
+    const valueVisibleStyle: ViewStyle = {};
     if (!allMeasured) {
       valueVisibleStyle.opacity = 0;
     }
@@ -159,7 +177,7 @@ class Slider extends React.Component<any> {
     );
   }
 
-  _getPropsForComponentUpdate(props) {
+  _getPropsForComponentUpdate(props: SliderComponentProps) {
     /* eslint-disable */
     const {
       value,
@@ -174,12 +192,12 @@ class Slider extends React.Component<any> {
     /* eslint-enable */
   }
 
-  _handleStartShouldSetPanResponder = (
-    e: Object,
-    gestureState: Object
-  ): boolean => {
+  _handleStartShouldSetPanResponder: PanResponderCallbacks["onStartShouldSetPanResponder"] = (
+    e,
+    gestureState
+  ) => {
     // Should we become active when the user presses down on the thumb?
-    return this._thumbHitTest(e, gestureState);
+    return this._thumbHitTest!(e, gestureState);
   };
 
   _handleMoveShouldSetPanResponder(/*e: Object, gestureState: Object*/): boolean {
@@ -187,21 +205,28 @@ class Slider extends React.Component<any> {
     return false;
   }
 
-  _handlePanResponderGrant = (/*e: Object, gestureState: Object*/) => {
+  _handlePanResponderGrant: PanResponderCallbacks["onPanResponderGrant"] = (
+    _e,
+    _gestureState
+  ) => {
     this._previousLeft = this._getThumbLeft(this._getCurrentValue());
-    this._fireChangeEvent("onSlidingStart");
+    if (this.props.onSlidingStart) {
+      this.props.onSlidingStart();
+    }
   };
 
-  _handlePanResponderMove = (
-    e: Object,
-    gestureState: PanResponderGestureState
+  _handlePanResponderMove: PanResponderCallbacks["onPanResponderMove"] = (
+    _e,
+    gestureState
   ) => {
     if (this.props.disabled) {
       return;
     }
 
     this._setCurrentValue(this._getValue(gestureState));
-    this._fireChangeEvent("onValueChange");
+    if (this.props.onValueChange) {
+      this.props.onValueChange(this._getCurrentValue());
+    }
   };
 
   _handlePanResponderRequestEnd() {
@@ -209,31 +234,33 @@ class Slider extends React.Component<any> {
     return false;
   }
 
-  _handlePanResponderEnd = (
-    e: Object,
-    gestureState: PanResponderGestureState
+  _handlePanResponderEnd: PanResponderCallbacks["onPanResponderEnd"] = (
+    e,
+    gestureState
   ) => {
     if (this.props.disabled) {
       return;
     }
 
     this._setCurrentValue(this._getValue(gestureState));
-    this._fireChangeEvent("onSlidingComplete");
+    if (this.props.onSlidingComplete) {
+      this.props.onSlidingComplete(this._getCurrentValue());
+    }
   };
 
-  _measureContainer = (x: Object) => {
+  _measureContainer = (x: LayoutChangeEvent) => {
     this._handleMeasure("containerSize", x);
   };
 
-  _measureTrack = (x: Object) => {
+  _measureTrack = (x: LayoutChangeEvent) => {
     this._handleMeasure("trackSize", x);
   };
 
-  _measureThumb = (x: Object) => {
+  _measureThumb = (x: LayoutChangeEvent) => {
     this._handleMeasure("thumbSize", x);
   };
 
-  _handleMeasure = (name: string, x: Object) => {
+  _handleMeasure = (name: string, x: LayoutChangeEvent) => {
     const { width, height } = x.nativeEvent.layout;
     const size = { width: width, height: height };
 
@@ -250,6 +277,7 @@ class Slider extends React.Component<any> {
     const store = this._store;
     if (store.containerSize && store.trackSize && store.thumbSize) {
       this.setState({
+        ...this.state,
         containerSize: store.containerSize,
         trackSize: store.trackSize,
         thumbSize: store.thumbSize,
@@ -273,9 +301,9 @@ class Slider extends React.Component<any> {
     );
   };
 
-  _getValue = (gestureState: Object) => {
+  _getValue = (gestureState: PanResponderGestureState) => {
     const length = this.state.containerSize.width - this.state.thumbSize.width;
-    const thumbLeft = this._previousLeft + gestureState.dx;
+    const thumbLeft = this._previousLeft! + gestureState.dx;
 
     const nonRtlRatio = thumbLeft / length;
     const ratio = I18nManager.isRTL ? 1 - nonRtlRatio : nonRtlRatio;
@@ -304,37 +332,33 @@ class Slider extends React.Component<any> {
     );
   };
 
-  _getCurrentValue = () => this._value.__getValue();
+  _getCurrentValue = (): number => {
+    const val = (this.state.animatedValue as any)._value;
+    return val;
+  };
 
   _setCurrentValue = (value: number) => {
-    this._value.setValue(value);
+    this.state.animatedValue.setValue(value);
   };
 
   _setCurrentValueAnimated = (value: number) => {
     const animationType = this.props.animationType;
-    const animationConfig = Object.assign(
-      {},
-      DEFAULT_ANIMATION_CONFIGS[animationType],
-      this.props.animationConfig,
-      { toValue: value }
-    );
 
-    Animated[animationType](this._value, animationConfig).start();
-  };
+    const animationConfig = {
+      ...DEFAULT_ANIMATION_CONFIGS[animationType],
+      toValue: value
+    };
 
-  _fireChangeEvent = event => {
-    if (this.props[event]) {
-      this.props[event](this._getCurrentValue());
-    }
+    Animated[animationType](this.state.animatedValue, animationConfig).start();
   };
 
   _getTouchOverflowSize = () => {
-    const { state } = this;
+    const { allMeasured, thumbSize, containerSize } = this.state;
 
-    const size: Partial<{ width: number; height: number }> = {};
-    if (state.allMeasured === true) {
-      size.width = Math.max(0, THUMB_TOUCH_SIZE - state.thumbSize.width);
-      size.height = Math.max(0, THUMB_TOUCH_SIZE - state.containerSize.height);
+    const size: Partial<LayoutRectangle> = {};
+    if (allMeasured === true) {
+      size.width = Math.max(0, THUMB_TOUCH_SIZE - thumbSize.width);
+      size.height = Math.max(0, THUMB_TOUCH_SIZE - containerSize.height);
     }
 
     return size;
@@ -343,7 +367,7 @@ class Slider extends React.Component<any> {
   _getTouchOverflowStyle = () => {
     const { width, height } = this._getTouchOverflowSize();
 
-    const touchOverflowStyle = {};
+    const touchOverflowStyle: ViewStyle = {};
     if (width !== undefined && height !== undefined) {
       const verticalMargin = -height / 2;
       touchOverflowStyle.marginTop = verticalMargin;
@@ -362,7 +386,9 @@ class Slider extends React.Component<any> {
     return touchOverflowStyle;
   };
 
-  _thumbHitTest = ({ nativeEvent }: any) => {
+  _thumbHitTest: PanResponderCallbacks["onStartShouldSetPanResponderCapture"] = ({
+    nativeEvent
+  }) => {
     const thumbTouchRect = this._getThumbTouchRect();
     const offset = getOffset();
     return thumbTouchRect.containsPoint(
@@ -372,15 +398,14 @@ class Slider extends React.Component<any> {
   };
 
   _getThumbTouchRect = () => {
-    const { state } = this;
-    const touchOverflowSize = this._getTouchOverflowSize();
+    const { thumbSize, containerSize } = this.state;
+    const { width = 0, height = 0 } = this._getTouchOverflowSize();
 
     return new Rect(
-      touchOverflowSize.width / 2 +
+      width / 2 +
         this._getThumbLeft(this._getCurrentValue()) +
-        (state.thumbSize.width - THUMB_TOUCH_SIZE) / 2,
-      touchOverflowSize.height / 2 +
-        (state.containerSize.height - THUMB_TOUCH_SIZE) / 2,
+        (thumbSize.width - THUMB_TOUCH_SIZE) / 2,
+      height / 2 + (containerSize.height - THUMB_TOUCH_SIZE) / 2,
       THUMB_TOUCH_SIZE,
       THUMB_TOUCH_SIZE
     );
@@ -436,7 +461,7 @@ const defaultStyles = StyleSheet.create({
 
 export default applyNativeMethods(Slider);
 
-class Rect {
+class Rect implements LayoutRectangle {
   x: number;
   y: number;
   width: number;

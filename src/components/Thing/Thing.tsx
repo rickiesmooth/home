@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "../Slider/Slider.web";
 import { ThingModel } from "../../store/interfaces";
 import { View, Text, Switch } from "react-native";
-import { throttle } from "../../utils/throttle";
+import { percentage, value } from "../../utils/percentages";
 
 type Props = {
   thing: ThingModel;
@@ -10,6 +10,29 @@ type Props = {
 
 export const ThingElement: React.FC<Props> = React.memo(({ thing }) => {
   const { title, values, updateThing, properties } = thing;
+
+  const sharedProperties = {
+    disabled: !values.on,
+    minimumValue: 0,
+    maximumValue: 1
+  };
+
+  const levelProperties = {
+    ...sharedProperties,
+    value: percentage(values.level, properties.level),
+    onValueChange: (val: number) => {
+      updateThing({ level: value(val, properties.level) });
+    }
+  };
+
+  const colorTemperatureProperties = {
+    ...sharedProperties,
+    value: percentage(values.colorTemperature, properties.colorTemperature),
+    onValueChange: (val: number) =>
+      updateThing({
+        colorTemperature: value(val, properties.colorTemperature)
+      })
+  };
 
   return (
     <View
@@ -25,33 +48,10 @@ export const ThingElement: React.FC<Props> = React.memo(({ thing }) => {
       <Text style={{ marginBottom: 8 }}>{title}</Text>
       {values && (
         <React.Fragment>
-          <Text>{`level ${values.level}`}</Text>
-          <Slider
-            disabled={!values.on}
-            value={values.level}
-            onValueChange={throttle(
-              (level: number) => updateThing({ level }),
-              500
-            )}
-            minimumValue={properties.level && properties.level.minimum}
-            maximumValue={properties.level && properties.level.maximum}
-          />
-          <Text>{`colorTemperature ${values.colorTemperature}`}</Text>
-          <Slider
-            disabled={!values.on}
-            value={values.colorTemperature}
-            onValueChange={throttle((colorTemperature: number) => {
-              updateThing({ colorTemperature });
-            }, 500)}
-            minimumValue={
-              properties.colorTemperature && properties.colorTemperature.minimum
-            }
-            maximumValue={
-              (properties.colorTemperature &&
-                properties.colorTemperature.maximum) ||
-              2700
-            }
-          />
+          <Text>{`level ${levelProperties.value}`}</Text>
+          <Slider {...levelProperties} />
+          <Text>{`colorTemperature ${colorTemperatureProperties.value}`}</Text>
+          <Slider {...colorTemperatureProperties} />
           <Switch value={values.on} onValueChange={on => updateThing({ on })} />
         </React.Fragment>
       )}

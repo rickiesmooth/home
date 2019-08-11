@@ -5,15 +5,8 @@ import { ThingElement } from "../components/Thing/Thing";
 
 export const DevicesScreen = () => {
   const {
-    state: { things },
-    actions
+    state: { things }
   } = useContext(ThingsContext);
-
-  React.useMemo(() => {
-    if (things.loading) {
-      actions.initThings();
-    }
-  }, [things.loading, actions]);
 
   if (things.loading) return <Text>"Loading"</Text>;
   if (things.error) return <Text>"error "</Text>;

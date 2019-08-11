@@ -41,7 +41,7 @@ type ThingLinksRaw = {
   href: string;
 };
 
-type ThingPropertyNormalized = {
+export type ThingPropertyNormalized = {
   link: string;
   title: string;
   minimum: number;
@@ -71,10 +71,10 @@ export interface ThingModel {
   ws?: WebSocket;
   base: string;
   wsBackoff: number;
+  connected: boolean;
   fetchValues(): void;
   updateThing(val: Partial<ThingModelValues>): void;
   updateCallback(thing: ThingModel): void;
-  connected: boolean;
 }
 
 export type State = {

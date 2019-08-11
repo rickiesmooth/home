@@ -6,10 +6,6 @@ import { listGroups } from "../graphql/queries";
 import { updateGroup } from "../graphql/mutations";
 
 export const HomeScreen = () => {
-  // const {
-  //   state: { things }
-  // } = useContext(ThingsContext);
-  // console.log(things);
   async function listTodos() {
     console.log("doing");
     const allTodos = await API.graphql(graphqlOperation(listGroups));
@@ -23,8 +19,7 @@ export const HomeScreen = () => {
     console.log(todo);
     await API.graphql(graphqlOperation(updateGroup));
   }
-  // listTodos();
-  console.log("doing");
+  listTodos();
   return (
     <ScrollView>
       <Text>{"groups"}</Text>
