@@ -17,6 +17,7 @@ export const DevicesScreen = () => {
 
   if (things.loading) return <Text>"Loading"</Text>;
   if (things.error) return <Text>"error "</Text>;
+
   return (
     <ScrollView
       style={styles.container}
