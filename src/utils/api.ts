@@ -8,6 +8,11 @@ import { AsyncStorage } from "react-native";
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+AsyncStorage.getItem("userToken").then(jwt => {
+  // @TODO FIX
+  API.jwt = jwt || "`";
+});
+
 export const API = {
   jwt: "",
 
@@ -414,7 +419,3 @@ export const API = {
     });
   }
 };
-
-AsyncStorage.getItem("userToken").then(jwt => {
-  API.jwt = jwt || "`";
-});

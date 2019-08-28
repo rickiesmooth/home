@@ -3,20 +3,20 @@ import pipe from "ramda/es/pipe";
 
 type utilFn = (ops: number[]) => number;
 
-const getArgs = (
+const getValues = (
   input: number = 0,
-  { minimum = 0, maximum = 100 }: Partial<ThingPropertyNormalized> = {}
-) => [input - minimum, maximum - minimum];
+  { minimum = 0, maximum = 1 }: Partial<ThingPropertyNormalized> = {}
+) => [input, maximum - minimum, minimum];
 
-const getPercentage: utilFn = ([offset, range]) => offset / range;
-const getValue: utilFn = ([offset, range]) => offset * range;
+const getPercentage: utilFn = ([input, range, min]) => (input - min) / range;
+const getValue: utilFn = ([input, range, min]) => input * range + min;
 
-export const percentage = pipe(
-  getArgs,
+export const valueToPercentage = pipe(
+  getValues,
   getPercentage
 );
 
-export const value = pipe(
-  getArgs,
+export const percentageToValue = pipe(
+  getValues,
   getValue
 );

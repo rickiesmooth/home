@@ -78,7 +78,7 @@ export class Thing implements ThingModel {
   };
 
   debouncedFetch = debounce<[string, Partial<ThingModelValues>]>(
-    100,
+    250,
     ([key, val]) => {
       doFetch<ThingModelValues>(`${this.href}/properties/${key}`, {
         method: "PUT",
