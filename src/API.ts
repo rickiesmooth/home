@@ -1,42 +1,35 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateGroupInput = {
-  id?: string | null,
-  name: string,
-};
-
-export type UpdateGroupInput = {
-  id: string,
-  name?: string | null,
-};
-
-export type DeleteGroupInput = {
-  id?: string | null,
-};
-
-export type CreateDeviceInput = {
+export type CreateMyTypeInput = {
   id?: string | null,
   title: string,
-  deviceGroupId?: string | null,
+  content: string,
+  price?: number | null,
+  rating?: number | null,
 };
 
-export type UpdateDeviceInput = {
+export type UpdateMyTypeInput = {
   id: string,
   title?: string | null,
-  deviceGroupId?: string | null,
+  content?: string | null,
+  price?: number | null,
+  rating?: number | null,
 };
 
-export type DeleteDeviceInput = {
+export type DeleteMyTypeInput = {
   id?: string | null,
 };
 
-export type ModelGroupFilterInput = {
+export type ModelMyTypeFilterInput = {
   id?: ModelIDFilterInput | null,
-  name?: ModelStringFilterInput | null,
-  and?: Array< ModelGroupFilterInput | null > | null,
-  or?: Array< ModelGroupFilterInput | null > | null,
-  not?: ModelGroupFilterInput | null,
+  title?: ModelStringFilterInput | null,
+  content?: ModelStringFilterInput | null,
+  price?: ModelIntFilterInput | null,
+  rating?: ModelFloatFilterInput | null,
+  and?: Array< ModelMyTypeFilterInput | null > | null,
+  or?: Array< ModelMyTypeFilterInput | null > | null,
+  not?: ModelMyTypeFilterInput | null,
 };
 
 export type ModelIDFilterInput = {
@@ -65,325 +58,140 @@ export type ModelStringFilterInput = {
   beginsWith?: string | null,
 };
 
-export type ModelDeviceFilterInput = {
-  id?: ModelIDFilterInput | null,
-  title?: ModelStringFilterInput | null,
-  and?: Array< ModelDeviceFilterInput | null > | null,
-  or?: Array< ModelDeviceFilterInput | null > | null,
-  not?: ModelDeviceFilterInput | null,
+export type ModelIntFilterInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  contains?: number | null,
+  notContains?: number | null,
+  between?: Array< number | null > | null,
 };
 
-export type CreateGroupMutationVariables = {
-  input: CreateGroupInput,
+export type ModelFloatFilterInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  contains?: number | null,
+  notContains?: number | null,
+  between?: Array< number | null > | null,
 };
 
-export type CreateGroupMutation = {
-  createGroup:  {
-    __typename: "Group",
-    id: string,
-    name: string,
-    devices:  {
-      __typename: "ModelDeviceConnection",
-      items:  Array< {
-        __typename: "Device",
-        id: string,
-        title: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
+export type CreateMyTypeMutationVariables = {
+  input: CreateMyTypeInput,
 };
 
-export type UpdateGroupMutationVariables = {
-  input: UpdateGroupInput,
-};
-
-export type UpdateGroupMutation = {
-  updateGroup:  {
-    __typename: "Group",
-    id: string,
-    name: string,
-    devices:  {
-      __typename: "ModelDeviceConnection",
-      items:  Array< {
-        __typename: "Device",
-        id: string,
-        title: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type DeleteGroupMutationVariables = {
-  input: DeleteGroupInput,
-};
-
-export type DeleteGroupMutation = {
-  deleteGroup:  {
-    __typename: "Group",
-    id: string,
-    name: string,
-    devices:  {
-      __typename: "ModelDeviceConnection",
-      items:  Array< {
-        __typename: "Device",
-        id: string,
-        title: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type CreateDeviceMutationVariables = {
-  input: CreateDeviceInput,
-};
-
-export type CreateDeviceMutation = {
-  createDevice:  {
-    __typename: "Device",
+export type CreateMyTypeMutation = {
+  createMyType:  {
+    __typename: "MyType",
     id: string,
     title: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      devices:  {
-        __typename: "ModelDeviceConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
+    content: string,
+    price: number | null,
+    rating: number | null,
   } | null,
 };
 
-export type UpdateDeviceMutationVariables = {
-  input: UpdateDeviceInput,
+export type UpdateMyTypeMutationVariables = {
+  input: UpdateMyTypeInput,
 };
 
-export type UpdateDeviceMutation = {
-  updateDevice:  {
-    __typename: "Device",
+export type UpdateMyTypeMutation = {
+  updateMyType:  {
+    __typename: "MyType",
     id: string,
     title: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      devices:  {
-        __typename: "ModelDeviceConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
+    content: string,
+    price: number | null,
+    rating: number | null,
   } | null,
 };
 
-export type DeleteDeviceMutationVariables = {
-  input: DeleteDeviceInput,
+export type DeleteMyTypeMutationVariables = {
+  input: DeleteMyTypeInput,
 };
 
-export type DeleteDeviceMutation = {
-  deleteDevice:  {
-    __typename: "Device",
+export type DeleteMyTypeMutation = {
+  deleteMyType:  {
+    __typename: "MyType",
     id: string,
     title: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      devices:  {
-        __typename: "ModelDeviceConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
+    content: string,
+    price: number | null,
+    rating: number | null,
   } | null,
 };
 
-export type GetGroupQueryVariables = {
+export type GetMyTypeQueryVariables = {
   id: string,
 };
 
-export type GetGroupQuery = {
-  getGroup:  {
-    __typename: "Group",
+export type GetMyTypeQuery = {
+  getMyType:  {
+    __typename: "MyType",
     id: string,
-    name: string,
-    devices:  {
-      __typename: "ModelDeviceConnection",
-      items:  Array< {
-        __typename: "Device",
-        id: string,
-        title: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    title: string,
+    content: string,
+    price: number | null,
+    rating: number | null,
   } | null,
 };
 
-export type ListGroupsQueryVariables = {
-  filter?: ModelGroupFilterInput | null,
+export type ListMyTypesQueryVariables = {
+  filter?: ModelMyTypeFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListGroupsQuery = {
-  listGroups:  {
-    __typename: "ModelGroupConnection",
+export type ListMyTypesQuery = {
+  listMyTypes:  {
+    __typename: "ModelMyTypeConnection",
     items:  Array< {
-      __typename: "Group",
-      id: string,
-      name: string,
-      devices:  {
-        __typename: "ModelDeviceConnection",
-        nextToken: string | null,
-      } | null,
-    } | null > | null,
-    nextToken: string | null,
-  } | null,
-};
-
-export type GetDeviceQueryVariables = {
-  id: string,
-};
-
-export type GetDeviceQuery = {
-  getDevice:  {
-    __typename: "Device",
-    id: string,
-    title: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      devices:  {
-        __typename: "ModelDeviceConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
-  } | null,
-};
-
-export type ListDevicesQueryVariables = {
-  filter?: ModelDeviceFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListDevicesQuery = {
-  listDevices:  {
-    __typename: "ModelDeviceConnection",
-    items:  Array< {
-      __typename: "Device",
+      __typename: "MyType",
       id: string,
       title: string,
-      group:  {
-        __typename: "Group",
-        id: string,
-        name: string,
-      } | null,
+      content: string,
+      price: number | null,
+      rating: number | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
 };
 
-export type OnCreateGroupSubscription = {
-  onCreateGroup:  {
-    __typename: "Group",
-    id: string,
-    name: string,
-    devices:  {
-      __typename: "ModelDeviceConnection",
-      items:  Array< {
-        __typename: "Device",
-        id: string,
-        title: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type OnUpdateGroupSubscription = {
-  onUpdateGroup:  {
-    __typename: "Group",
-    id: string,
-    name: string,
-    devices:  {
-      __typename: "ModelDeviceConnection",
-      items:  Array< {
-        __typename: "Device",
-        id: string,
-        title: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type OnDeleteGroupSubscription = {
-  onDeleteGroup:  {
-    __typename: "Group",
-    id: string,
-    name: string,
-    devices:  {
-      __typename: "ModelDeviceConnection",
-      items:  Array< {
-        __typename: "Device",
-        id: string,
-        title: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type OnCreateDeviceSubscription = {
-  onCreateDevice:  {
-    __typename: "Device",
+export type OnCreateMyTypeSubscription = {
+  onCreateMyType:  {
+    __typename: "MyType",
     id: string,
     title: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      devices:  {
-        __typename: "ModelDeviceConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
+    content: string,
+    price: number | null,
+    rating: number | null,
   } | null,
 };
 
-export type OnUpdateDeviceSubscription = {
-  onUpdateDevice:  {
-    __typename: "Device",
+export type OnUpdateMyTypeSubscription = {
+  onUpdateMyType:  {
+    __typename: "MyType",
     id: string,
     title: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      devices:  {
-        __typename: "ModelDeviceConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
+    content: string,
+    price: number | null,
+    rating: number | null,
   } | null,
 };
 
-export type OnDeleteDeviceSubscription = {
-  onDeleteDevice:  {
-    __typename: "Device",
+export type OnDeleteMyTypeSubscription = {
+  onDeleteMyType:  {
+    __typename: "MyType",
     id: string,
     title: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      devices:  {
-        __typename: "ModelDeviceConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
+    content: string,
+    price: number | null,
+    rating: number | null,
   } | null,
 };

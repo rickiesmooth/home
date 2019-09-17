@@ -5,9 +5,9 @@
     "javascript": {
         "framework": "react-native",
         "config": {
-            "SourceDir": "/",
-            "DistributionDir": "web-build",
-            "BuildCommand": "expo build:web",
+            "SourceDir": "src",
+            "DistributionDir": "/",
+            "BuildCommand": "npm run-script build",
             "StartCommand": "npm run-script start"
         }
     },

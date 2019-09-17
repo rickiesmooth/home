@@ -1,87 +1,33 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const createGroup = `mutation CreateGroup($input: CreateGroupInput!) {
-  createGroup(input: $input) {
-    id
-    name
-    devices {
-      items {
-        id
-        title
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const updateGroup = `mutation UpdateGroup($input: UpdateGroupInput!) {
-  updateGroup(input: $input) {
-    id
-    name
-    devices {
-      items {
-        id
-        title
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const deleteGroup = `mutation DeleteGroup($input: DeleteGroupInput!) {
-  deleteGroup(input: $input) {
-    id
-    name
-    devices {
-      items {
-        id
-        title
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const createDevice = `mutation CreateDevice($input: CreateDeviceInput!) {
-  createDevice(input: $input) {
+export const createMyType = `mutation CreateMyType($input: CreateMyTypeInput!) {
+  createMyType(input: $input) {
     id
     title
-    group {
-      id
-      name
-      devices {
-        nextToken
-      }
-    }
+    content
+    price
+    rating
   }
 }
 `;
-export const updateDevice = `mutation UpdateDevice($input: UpdateDeviceInput!) {
-  updateDevice(input: $input) {
+export const updateMyType = `mutation UpdateMyType($input: UpdateMyTypeInput!) {
+  updateMyType(input: $input) {
     id
     title
-    group {
-      id
-      name
-      devices {
-        nextToken
-      }
-    }
+    content
+    price
+    rating
   }
 }
 `;
-export const deleteDevice = `mutation DeleteDevice($input: DeleteDeviceInput!) {
-  deleteDevice(input: $input) {
+export const deleteMyType = `mutation DeleteMyType($input: DeleteMyTypeInput!) {
+  deleteMyType(input: $input) {
     id
     title
-    group {
-      id
-      name
-      devices {
-        nextToken
-      }
-    }
+    content
+    price
+    rating
   }
 }
 `;
