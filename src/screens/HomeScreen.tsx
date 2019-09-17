@@ -19,7 +19,7 @@ export const HomeScreen = () => {
     console.log(todo);
     // await API.graphql(graphqlOperation(updateGroup));
   }
-  listTodos();
+  // listTodos();
   return (
     <ScrollView>
       <Text>{"groups"}</Text>

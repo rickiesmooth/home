@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
-import { ThingsContext } from "../store/ThingsContext";
+import { ThingsContext } from "../store/things";
 import { ThingElement } from "../components/Thing/Thing";
 
 export const DevicesScreen = () => {

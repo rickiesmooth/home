@@ -3,7 +3,6 @@ import { View, TextInput, Button, AsyncStorage } from "react-native";
 
 import { doFetch, FetchData } from "../utils/useFetch";
 import { Redirect } from "../navigation/Redirect";
-import { ThingsContext } from "../store/ThingsContext";
 // import "./App.css";
 
 const LoadUser = ({ email, password }: any) => {
