@@ -1,38 +1,19 @@
 import React from "react";
 import { View, TextInput, Button, AsyncStorage } from "react-native";
 
-import { doFetch, FetchData } from "../utils/useFetch";
+import { useFetch } from "../utils/useFetch";
+import API from "../utils/api";
 import { Redirect } from "../navigation/Redirect";
 // import "./App.css";
 
 const LoadUser = ({ email, password }: any) => {
-  const [{ loading, error = null, result = null }, setState] = React.useState<
-    FetchData<{ jwt: string }>
-  >({
-    loading: true
-  });
-
-  React.useEffect(() => {
-    const postUser = async () => {
-      const userToken = await AsyncStorage.getItem("userToken");
-      if (!userToken) {
-        const result = await doFetch<{ jwt: string }>("/login", {
-          method: "POST",
-          body: JSON.stringify({
-            email,
-            password
-          })
-        });
-        setState(result);
-      }
-    };
-    postUser();
-  }, [email, password]);
+  const { url, opts } = API.login(email, password);
+  const { data, error, isPending } = useFetch<{ jwt: string }>(url, opts);
 
   if (error) return <p>"error"</p>;
-  if (loading) return <p>"loading"</p>;
-  if (result) {
-    AsyncStorage.setItem("userToken", result.jwt);
+  if (isPending) return <p>"loading"</p>;
+  if (data) {
+    AsyncStorage.setItem("userToken", data.jwt);
     return <Redirect to="App" />;
   }
   return null;

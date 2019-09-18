@@ -1,10 +1,9 @@
 import { State, Action, ACTION_TYPES, ThingModel } from "./interfaces";
 
 export const initialState: State = {
-  things: {
-    loading: true,
-    result: []
-  }
+  loading: true,
+  things: [],
+  error: null
 };
 
 const updateProperty = (things: ThingModel[], thing: ThingModel) =>
@@ -18,23 +17,18 @@ const updateProperty = (things: ThingModel[], thing: ThingModel) =>
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ACTION_TYPES.THINGS_INIT:
-      const { result, loading, error } = action.data;
+      const { things } = action.data;
+      console.log(action);
       return {
         ...state,
-        things: {
-          loading,
-          error,
-          result
-        }
+        things: [...(things || [])],
+        loading: false
       };
 
     case ACTION_TYPES.PROPERTIES_UPDATE:
       return {
         ...state,
-        things: {
-          ...state.things,
-          result: updateProperty(state.things.result!, action.data)
-        }
+        things: updateProperty(state.things!, action.data)
       };
     default:
       throw new Error();

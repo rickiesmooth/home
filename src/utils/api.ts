@@ -1,421 +1,307 @@
 import { AsyncStorage } from "react-native";
+import { ThingModelValues } from "../store/things/interfaces";
 
-/**
- * Temporary API for interacting with the server.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
+export const GATEWAY_URL = "https://hotf.mozilla-iot.org";
 
-AsyncStorage.getItem("userToken").then(jwt => {
-  // @TODO FIX
-  API.jwt = jwt || "`";
-});
-
-export const API = {
-  jwt: "",
-
-  isLoggedIn() {
-    return !!this.jwt;
-  },
+class GatewayService {
+  jwt = "";
+  constructor() {
+    AsyncStorage.getItem("userToken").then(jwt => {
+      this.jwt = jwt || "";
+    });
+  }
 
   headers() {
-    const headers: any = {
-      Accept: "application/json"
+    return {
+      "Content-Type": "application/json",
+      ...(this.jwt && { Authorization: `Bearer ${this.jwt}` })
     };
-    if (this.jwt) {
-      headers.Authorization = `Bearer ${this.jwt}`;
-    }
-    return headers;
-  },
+  }
 
   userCount() {
-    const opts = {
-      headers: {
-        Accept: "application/json"
+    return {
+      url: "/users/count",
+      opts: {
+        headers: {
+          Accept: "application/json"
+        }
       }
     };
-    return fetch("/users/count", opts)
-      .then(res => {
-        return res.json();
-      })
-      .then(body => {
-        return body.count;
-      });
-  },
+  }
 
   assertJWT() {
     if (!this.jwt) {
       throw new Error("No JWT go login..");
     }
-  },
+  }
 
   verifyJWT() {
-    const opts = {
-      headers: {
-        Authorization: `Bearer ${API.jwt}`,
-        Accept: "application/json"
+    return {
+      url: "/things/",
+      opts: {
+        headers: this.headers()
       }
     };
-
-    return fetch("/things/", opts).then(res => {
-      return res.ok;
-    });
-  },
-
-  createUser: (name: string, email: string, password: string) => {
-    const opts = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password
-      })
-    };
-    return fetch("/users/", opts)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("Repeating signup not permitted");
-        }
-        return res.json();
-      })
-      .then(body => {
-        const jwt = body.jwt;
-        localStorage.setItem("jwt", jwt);
-        API.jwt = jwt;
-      });
-  },
-
-  //   getUser: (id: string) => {
-  //     const opts = {
-  //       headers: {
-  //         Accept: "application/json",
-  //         Authorization: `Bearer ${API.jwt}`
-  //       }
-  //     };
-  //     return fetch(`/users/${encodeURIComponent(id)}`, opts).then(res => {
-  //       if (!res.ok) {
-  //         throw new Error("Unable to access user info");
-  //       }
-  //       return res.json();
-  //     });
-  //   },
-
-  addUser: (name: string, email: string, password: string) => {
-    const opts = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${API.jwt}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password
-      })
-    };
-    return fetch("/users/", opts).then(res => {
-      if (!res.ok) {
-        throw new Error("Failed to add new user");
+  }
+  createUser(name: string, email: string, password: string) {
+    return {
+      url: "/users/",
+      opts: {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password
+        })
       }
-    });
-  },
+    };
+  }
 
-  editUser: (
+  getUser(id: string) {
+    return {
+      url: `/users/${encodeURIComponent(id)}`,
+      opts: {
+        headers: this.headers
+      }
+    };
+  }
+
+  addUser(name: string, email: string, password: string) {
+    return {
+      url: "/users/",
+      opts: {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          ...this.headers()
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password
+        })
+      }
+    };
+  }
+
+  editUser(
     id: string,
     name: string,
     email: string,
     password: string,
     newPassword: string
-  ) => {
-    const opts = {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${API.jwt}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ id, name, email, password, newPassword })
-    };
-    return fetch(`/users/${encodeURIComponent(id)}`, opts).then(res => {
-      if (!res.ok) {
-        throw new Error("Failed to edit user");
-      }
-    });
-  },
-
-  addLocalDomain: (domainName: string) => {
-    const opts = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${API.jwt}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ domainName })
-    };
-    return fetch("/users/", opts).then(res => {
-      if (!res.ok) {
-        throw new Error("Failed to change domain name");
-      }
-    });
-  },
-
-  deleteUser: (id: string) => {
-    const opts = {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${API.jwt}`
+  ) {
+    return {
+      url: `/users/${encodeURIComponent(id)}`,
+      opts: {
+        method: "PUT",
+        headers: {
+          ...this.headers(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id, name, email, password, newPassword })
       }
     };
-    return fetch(`/users/${encodeURIComponent(id)}`, opts).then(res => {
-      if (!res.ok) {
-        throw new Error("Failed to delete user");
-      }
-    });
-  },
-
-  getAllUserInfo: () => {
-    const opts = {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${API.jwt}`
+  }
+  addLocalDomain(domainName: string) {
+    return {
+      url: "/users/",
+      opts: {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          ...this.headers()
+        },
+        body: JSON.stringify({ domainName })
       }
     };
-    return fetch("/users/info", opts).then(response => {
-      if (!response.ok) {
-        throw new Error("Unable to access user info");
+  }
+  deleteUser(id: string) {
+    return {
+      url: `/users/${encodeURIComponent(id)}`,
+      opts: {
+        method: "DELETE",
+        headers: this.headers()
       }
-      return response.json();
-    });
-  },
-
-  login: (email: string, password: string) => {
-    const opts = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
     };
-    return fetch("/login/", opts)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("Incorrect username or password");
-        }
-        return res.json();
-      })
-      .then(body => {
-        const jwt = body.jwt;
-        localStorage.setItem("jwt", jwt);
-        API.jwt = jwt;
-      });
-  },
+  }
+  getAllUserInfo() {
+    return {
+      url: "/users/info",
+      opts: {
+        headers: this.headers()
+      }
+    };
+  }
+  login(email: string, password: string) {
+    return {
+      url: "/login/",
+      opts: {
+        method: "POST",
+        headers: {
+          ...this.headers,
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      }
+    };
+  }
 
-  logout: function() {
+  logout() {
     this.assertJWT();
     localStorage.removeItem("jwt");
-    return fetch("/log-out", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${API.jwt}`,
-        "Content-Type": "application/json",
-        Accept: "application/json"
+    return {
+      url: "/log-out",
+      opts: {
+        method: "POST",
+        headers: {
+          ...this.headers(),
+          Accept: "application/json"
+        }
       }
-    }).then(res => {
-      if (!res.ok) {
-        console.error("Logout failed...");
-      }
-    });
-  },
-
-  setAddonConfig: (addonName: string, config: Object) => {
-    const headers = {
-      Authorization: `Bearer ${API.jwt}`,
-      Accept: "application/json",
-      "Content-Type": "application/json"
     };
+  }
+
+  setAddonConfig(addonName: string, config: Object) {
     const payload = {
       config
     };
     const body = JSON.stringify(payload);
-    return fetch(`/addons/${encodeURIComponent(addonName)}/config`, {
-      method: "PUT",
-      body,
-      headers
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error("Unexpected response code while setting add-on config");
+    return {
+      url: `/addons/${encodeURIComponent(addonName)}/config`,
+      opts: {
+        body,
+        method: "PUT",
+        headers: {
+          ...this.headers(),
+          Accept: "application/json"
+        }
       }
-    });
-  },
-
-  setAddonSetting: (addonName: string, enabled: boolean) => {
-    const headers = {
-      Authorization: `Bearer ${API.jwt}`,
-      Accept: "application/json",
-      "Content-Type": "application/json"
     };
+  }
+
+  setAddonSetting(addonName: string, enabled: boolean) {
     const payload = {
       enabled
     };
-    return fetch(`/addons/${encodeURIComponent(addonName)}`, {
-      method: "PUT",
-      body: JSON.stringify(payload),
-      headers
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error(
-          "Unexpected response code while setting add-on setting"
-        );
-      }
-    });
-  },
 
-  installAddon: (
-    addonName: string,
-    addonUrl: string,
-    addonChecksum: string
-  ) => {
-    const headers = {
-      Authorization: `Bearer ${API.jwt}`,
-      Accept: "application/json",
-      "Content-Type": "application/json"
+    return {
+      url: `/addons/${encodeURIComponent(addonName)}`,
+      opts: {
+        method: "PUT",
+        body: JSON.stringify(payload),
+        headers: {
+          Accept: "application/json",
+          ...this.headers()
+        }
+      }
     };
+  }
+
+  installAddon(addonName: string, addonUrl: string, addonChecksum: string) {
     const payload = {
       name: addonName,
       url: addonUrl,
       checksum: addonChecksum
     };
-    return fetch("/addons", {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error("Unexpected response code while installing add-on.");
+    return {
+      url: "/addons",
+      opts: {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          Accept: "application/json",
+          ...this.headers()
+        }
       }
-      return response.json();
-    });
-  },
-
-  uninstallAddon: (addonName: string) => {
-    const headers = {
-      Authorization: `Bearer ${API.jwt}`,
-      Accept: "application/json",
-      "Content-Type": "application/json"
     };
-    return fetch(`/addons/${encodeURIComponent(addonName)}`, {
-      method: "DELETE",
-      headers
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error("Unexpected response code while uninstalling add-on.");
+  }
+  uninstallAddon(addonName: string) {
+    return {
+      url: `/addons/${encodeURIComponent(addonName)}`,
+      opts: {
+        method: "DELETE",
+        headers: {
+          ...this.headers(),
+          Accept: "application/json"
+        }
       }
-    });
-  },
-
-  updateAddon: (addonName: string, addonUrl: string, addonChecksum: string) => {
-    const headers = {
-      Authorization: `Bearer ${API.jwt}`,
-      Accept: "application/json",
-      "Content-Type": "application/json"
     };
+  }
+
+  updateAddon(addonName: string, addonUrl: string, addonChecksum: string) {
     const payload = {
       url: addonUrl,
       checksum: addonChecksum
     };
-    return fetch(`/addons/${encodeURIComponent(addonName)}`, {
-      method: "PATCH",
-      body: JSON.stringify(payload),
-      headers
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error("Unexpected response code while updating add-on.");
-      }
-    });
-  },
-
-  getExperimentSetting: (experimentName: string) => {
-    const headers = {
-      Authorization: `Bearer ${API.jwt}`,
-      Accept: "application/json"
-    };
-    return fetch(
-      `/settings/experiments/${encodeURIComponent(experimentName)}`,
-      {
-        method: "GET",
-        headers
-      }
-    ).then(response => {
-      if (!response.ok) {
-        if (response.status === 404) {
-          return false;
-        }
-
-        throw new Error(`Error getting ${experimentName}`);
-      }
-
-      return response
-        .json()
-        .then(json => {
-          return json.enabled;
-        })
-        .catch(e => {
-          throw new Error(`Error getting ${experimentName} ${e}`);
-        });
-    });
-  },
-
-  setExperimentSetting: (experimentName: string, enabled: boolean) => {
-    const headers = {
-      Authorization: `Bearer ${API.jwt}`,
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    };
-    const payload = {
-      enabled
-    };
-    return fetch(
-      `/settings/experiments/${encodeURIComponent(experimentName)}`,
-      {
-        method: "PUT",
+    return {
+      url: `/addons/${encodeURIComponent(addonName)}`,
+      opts: {
+        method: "PATCH",
         body: JSON.stringify(payload),
-        headers
+        headers: {
+          ...this.headers(),
+          Accept: "application/json"
+        }
       }
-    ).then(response => {
-      if (!response.ok) {
-        throw new Error(
-          "Unexpected response code while setting experiment setting"
-        );
-      }
-    });
-  },
-
-  getUpdateStatus: function() {
-    return fetch("/updates/status", {
-      headers: this.headers()
-    }).then(res => {
-      return res.json();
-    });
-  },
-
-  getUpdateLatest: function() {
-    return fetch("/updates/latest", {
-      headers: this.headers()
-    }).then(res => {
-      return res.json();
-    });
+    };
   }
-};
+  getUpdateStatus() {
+    return {
+      url: "/updates/status",
+      opts: {
+        headers: this.headers()
+      }
+    };
+  }
+
+  getUpdateLatest() {
+    return {
+      url: "/updates/latest",
+      opts: {
+        headers: this.headers()
+      }
+    };
+  }
+
+  updateProperty(url: string, payload: Partial<ThingModelValues>) {
+    const body = JSON.stringify(payload);
+    return {
+      url,
+      opts: {
+        body,
+        method: "PUT",
+        headers: this.headers()
+      }
+    };
+  }
+
+  async fetch<T>(
+    input: RequestInfo,
+    init: RequestInit = {}
+  ): Promise<{ data?: T; error?: Error }> {
+    const response = { data: void 0, error: void 0 };
+    try {
+      console.log(this.headers());
+      response.data = await fetch(`${GATEWAY_URL}${input}`, {
+        headers: {
+          ...this.headers(),
+          ...init.headers
+        }
+      }).then(res => res.json());
+    } catch (error) {
+      console.log(error);
+      response.error = error;
+    }
+    return response;
+  }
+}
+
+export default new GatewayService();

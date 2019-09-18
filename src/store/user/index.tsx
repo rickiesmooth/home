@@ -15,8 +15,8 @@ const UserProvider: React.FC = ({ children }) => {
   const actions = useActions(state, dispatch);
 
   AsyncStorage.getItem("userToken").then(res => {
-    if (!state.loggedIn) {
-      actions.login(true);
+    if (!state.loggedIn && res) {
+      actions.login(res);
     }
   });
 

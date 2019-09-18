@@ -9,7 +9,8 @@ export const reducer = (state: State, action: Action): State => {
     case ACTION_TYPES.USER_LOGIN:
       return {
         ...state,
-        loggedIn: action.data
+        loggedIn: !!action.data,
+        token: action.data
       };
 
     default:

@@ -1,30 +1,36 @@
 import React from "react";
 import { Text, Button, ScrollView, TextInput } from "react-native";
 // import { ThingsContext } from "../store/ThingsContext";
-import { API, graphqlOperation } from "aws-amplify";
 // import { listGroups } from "../graphql/queries";
-// import { updateGroup } from "../graphql/mutations";
+// import { createGroup } from "../graphql/mutations";
+// import { CreateGroupMutationVariables, ListGroupsQuery } from "../graphql/API";
 
 export const HomeScreen = () => {
-  async function listTodos() {
-    console.log("doing");
-    // const allTodos = await API.graphql(graphqlOperation(listGroups));
-    // console.log(allTodos);
-  }
+  // const [addGroup, mutationResponse] = useMutation<
+  //   void,
+  //   CreateGroupMutationVariables
+  // >(createGroup, {
+  //   variables: {
+  //     input: {
+  //       name: ""
+  //     }
+  //   }
+  // });
 
-  async function updateTodos() {
-    console.log("doing");
-    const todo = { name: "Use AppSync", description: "Realtime and Offline" };
+  // const { loading, data } = useQuery<ListGroupsQuery>(listGroups, {});
 
-    console.log(todo);
-    // await API.graphql(graphqlOperation(updateGroup));
-  }
-  // listTodos();
+  // console.log(mutationResponse);
+
   return (
     <ScrollView>
       <Text>{"groups"}</Text>
-      <TextInput placeholder="title" onChangeText={() => {}} />
-      <Button title="update" onPress={updateTodos} />
+      <TextInput placeholder="title" onChangeText={text => console.log(text)} />
+      <Button
+        title="update"
+        onPress={() => {
+          // addGroup();
+        }}
+      />
     </ScrollView>
   );
 };

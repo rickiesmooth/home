@@ -4,6 +4,7 @@ export interface UserContextInterface {
 }
 export type State = {
   loggedIn: boolean;
+  token?: string;
 };
 
 export enum ACTION_TYPES {
@@ -12,9 +13,9 @@ export enum ACTION_TYPES {
 
 export type Action = {
   type: ACTION_TYPES.USER_LOGIN;
-  data: boolean;
+  data: string;
 };
 
 export type UserActions = {
-  login(data: boolean): void;
+  login(token: string): void;
 };

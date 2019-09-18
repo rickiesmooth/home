@@ -5,18 +5,17 @@ import { ThingElement } from "../components/Thing/Thing";
 
 export const DevicesScreen = () => {
   const {
-    state: { things }
+    state: { things, loading, error }
   } = useContext(ThingsContext);
 
-  if (things.loading) return <Text>"Loading"</Text>;
-  if (things.error) return <Text>"error "</Text>;
-
+  if (loading) return <Text>"Loading"</Text>;
+  if (error) return <Text>"error "</Text>;
   return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
-      {things.result!.map(thing => (
+      {things.map(thing => (
         <ThingElement key={thing.id} thing={thing} />
       ))}
     </ScrollView>

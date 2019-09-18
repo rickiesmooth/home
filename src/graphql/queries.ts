@@ -1,28 +1,64 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const getMyType = `query GetMyType($id: ID!) {
-  getMyType(id: $id) {
+export const getGroup = `query GetGroup($id: ID!) {
+  getGroup(id: $id) {
     id
-    title
-    content
-    price
-    rating
+    name
+    devices {
+      items {
+        id
+        title
+      }
+      nextToken
+    }
   }
 }
 `;
-export const listMyTypes = `query ListMyTypes(
-  $filter: ModelMyTypeFilterInput
+export const listGroups = `query ListGroups(
+  $filter: ModelGroupFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listMyTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      devices {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+`;
+export const getDevice = `query GetDevice($id: ID!) {
+  getDevice(id: $id) {
+    id
+    title
+    group {
+      id
+      name
+      devices {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const listDevices = `query ListDevices(
+  $filter: ModelDeviceFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listDevices(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
       title
-      content
-      price
-      rating
+      group {
+        id
+        name
+      }
     }
     nextToken
   }

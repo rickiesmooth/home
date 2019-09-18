@@ -1,7 +1,10 @@
-type MyType @model {
-	id: ID!
-	title: String!
-	content: String!
-	price: Int
-	rating: Float
+type Group @model {
+  id: ID!
+  name: String!
+  devices: [Device] @connection(name: "GroupDevices")
+}
+type Device @model {
+  id: ID!
+  title: String!
+  group: Group @connection(name: "GroupDevices")
 }

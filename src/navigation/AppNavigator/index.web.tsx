@@ -12,7 +12,7 @@ import { SignInScreen } from "../../screens/SignInScreen";
 import { AuthLoadingScreen } from "../../screens/AuthLoadingScreen";
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
-console.log("WTF???EFEF");
+
 const switchNavigator = createSwitchNavigator(
   {
     AuthLoading: {

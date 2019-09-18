@@ -6,7 +6,7 @@ import {
   ThingModel
 } from "./interfaces";
 import { Thing } from "./models";
-import { doFetch } from "../../utils/useFetch";
+import API from "../../utils/api";
 
 export const useActions = (_state: State, dispatch: React.Dispatch<Action>) => {
   const updateThing = (updatedThing: ThingModel) => {
@@ -20,22 +20,21 @@ export const useActions = (_state: State, dispatch: React.Dispatch<Action>) => {
 
   return {
     login: (data: boolean) => {
-      console.log("wtf");
       dispatch({
         type: ACTION_TYPES.USER_LOGIN,
         data
       });
     },
-    initThings: async function() {
-      const { result, error, loading } = await doFetch<ThingRaw[]>("/things");
-      const normalized = result!.map(raw => new Thing(raw, updateThing));
+    initThings: async function(token: string) {
+      const { data, error } = await API.fetch<ThingRaw[]>("/things");
 
       dispatch({
         type: ACTION_TYPES.THINGS_INIT,
         data: {
-          error,
-          loading,
-          result: normalized
+          ...(data && {
+            things: await data.map(raw => new Thing(raw, updateThing))
+          }),
+          ...(error && { error: error.message })
         }
       });
     },

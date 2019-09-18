@@ -1,5 +1,3 @@
-import { FetchData } from "../../utils/useFetch";
-
 export interface ThingsContextInterface {
   state: State;
   actions: ThingsActions;
@@ -78,7 +76,9 @@ export interface ThingModel {
 }
 
 export type State = {
-  things: FetchData<ThingModel[]>;
+  things: ThingModel[];
+  loading: boolean;
+  error: string | null;
 };
 
 // @TODO move to ./actions
@@ -93,7 +93,10 @@ export enum ACTION_TYPES {
 export type Action =
   | {
       type: ACTION_TYPES.THINGS_INIT;
-      data: FetchData<ThingModel[]>;
+      data: {
+        things?: ThingModel[];
+        error?: string;
+      };
     }
   | {
       type: ACTION_TYPES.PROPERTIES_UPDATE;
@@ -106,6 +109,6 @@ export type Action =
 
 export type ThingsActions = {
   login(data: boolean): void;
-  initThings(): void;
+  initThings(token: string): void;
   updateThing(thing: ThingModel, values: Partial<ThingModelValues>): void;
 };

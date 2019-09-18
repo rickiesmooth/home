@@ -7,7 +7,11 @@
 				"authConfig": {
 					"additionalAuthenticationProviders": [],
 					"defaultAuthentication": {
-						"authenticationType": "AWS_IAM"
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "api key home graphql api",
+							"apiKeyExpirationDays": 180
+						}
 					}
 				}
 			}

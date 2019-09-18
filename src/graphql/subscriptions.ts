@@ -1,33 +1,87 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const onCreateMyType = `subscription OnCreateMyType {
-  onCreateMyType {
+export const onCreateGroup = `subscription OnCreateGroup {
+  onCreateGroup {
     id
-    title
-    content
-    price
-    rating
+    name
+    devices {
+      items {
+        id
+        title
+      }
+      nextToken
+    }
   }
 }
 `;
-export const onUpdateMyType = `subscription OnUpdateMyType {
-  onUpdateMyType {
+export const onUpdateGroup = `subscription OnUpdateGroup {
+  onUpdateGroup {
     id
-    title
-    content
-    price
-    rating
+    name
+    devices {
+      items {
+        id
+        title
+      }
+      nextToken
+    }
   }
 }
 `;
-export const onDeleteMyType = `subscription OnDeleteMyType {
-  onDeleteMyType {
+export const onDeleteGroup = `subscription OnDeleteGroup {
+  onDeleteGroup {
+    id
+    name
+    devices {
+      items {
+        id
+        title
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const onCreateDevice = `subscription OnCreateDevice {
+  onCreateDevice {
     id
     title
-    content
-    price
-    rating
+    group {
+      id
+      name
+      devices {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const onUpdateDevice = `subscription OnUpdateDevice {
+  onUpdateDevice {
+    id
+    title
+    group {
+      id
+      name
+      devices {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const onDeleteDevice = `subscription OnDeleteDevice {
+  onDeleteDevice {
+    id
+    title
+    group {
+      id
+      name
+      devices {
+        nextToken
+      }
+    }
   }
 }
 `;

@@ -13,8 +13,6 @@ const ThingsProvider: React.FC = ({ children }) => {
 
   const actions = useActions(state, dispatch);
 
-  const init = React.useCallback(actions.initThings, [actions]);
-
   return (
     <ThingsContext.Provider
       value={{

@@ -1,37 +1,16 @@
-import { AsyncStorage } from "react-native";
+import { useFetch as useAsyncFetch } from "react-async";
+import API, { GATEWAY_URL } from "./api";
 
-export type FetchData<T> = { loading: boolean; result?: T; error?: string };
-
-const GATEWAY_URL = "https://hotf.mozilla-iot.org";
-
-export async function doFetch<T>(
-  input: RequestInfo,
-  init: RequestInit = {}
-): Promise<FetchData<T>> {
-  let result = null;
-  let error = null;
-  try {
-    const userToken = await AsyncStorage.getItem("userToken");
-    const res = await fetch(GATEWAY_URL + input, {
+export const useFetch: typeof useAsyncFetch = (path, init = {}, options) => {
+  return useAsyncFetch(
+    `${GATEWAY_URL}${path}`,
+    {
+      ...init,
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-        ...init.headers
-      },
-      ...init
-    });
-
-    if (res.ok) {
-      result = await res.json();
-    } else {
-      throw new Error(res.statusText);
-    }
-  } catch (e) {
-    error = e;
-  }
-  return {
-    result,
-    error,
-    loading: false
-  };
-}
+        ...init.headers,
+        ...API.headers()
+      }
+    },
+    options
+  );
+};
