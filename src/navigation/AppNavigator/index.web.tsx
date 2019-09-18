@@ -6,13 +6,13 @@ import {
   createAppContainer
 } from "@react-navigation/core";
 import { createStackNavigator } from "react-navigation-stack";
-import MainTabNavigator from "./MainTabNavigator";
+import MainTabNavigator from "../MainTabNavigator";
 
-import { SignInScreen } from "../screens/SignInScreen";
-import { AuthLoadingScreen } from "../screens/AuthLoadingScreen";
+import { SignInScreen } from "../../screens/SignInScreen";
+import { AuthLoadingScreen } from "../../screens/AuthLoadingScreen";
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
-
+console.log("WTF???EFEF");
 const switchNavigator = createSwitchNavigator(
   {
     AuthLoading: {

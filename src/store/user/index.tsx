@@ -2,6 +2,7 @@ import React from "react";
 import { reducer, initialState } from "./reducers";
 import { useActions } from "./actions";
 import { UserContextInterface } from "./interfaces";
+import { AsyncStorage } from "react-native";
 
 const UserContext = React.createContext<UserContextInterface>(
   {} as UserContextInterface
@@ -13,7 +14,11 @@ const UserProvider: React.FC = ({ children }) => {
 
   const actions = useActions(state, dispatch);
 
-  // const init = React.useCallback(actions.initThings, [actions]);
+  AsyncStorage.getItem("userToken").then(res => {
+    if (!state.loggedIn) {
+      actions.login(true);
+    }
+  });
 
   return (
     <UserContext.Provider
