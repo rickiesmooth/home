@@ -1,34 +1,47 @@
 import React from "react";
 import { Text, Button, ScrollView, TextInput } from "react-native";
-// import { ThingsContext } from "../store/ThingsContext";
-// import { listGroups } from "../graphql/queries";
-// import { createGroup } from "../graphql/mutations";
-// import { CreateGroupMutationVariables, ListGroupsQuery } from "../graphql/API";
+import gql from "graphql-tag";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { listGroups } from "../graphql/queries";
+import { createGroup } from "../graphql/mutations";
+import { ListGroupsQuery, CreateGroupMutationVariables } from "../graphql/API";
+
+export const LIST_GROUPS = gql`
+  ${listGroups}
+`;
+
+export const ADD_GROUP = gql`
+  ${createGroup}
+`;
 
 export const HomeScreen = () => {
-  // const [addGroup, mutationResponse] = useMutation<
-  //   void,
-  //   CreateGroupMutationVariables
-  // >(createGroup, {
-  //   variables: {
-  //     input: {
-  //       name: ""
-  //     }
-  //   }
-  // });
+  const [groupName, setGroupName] = React.useState("");
+  const { loading, error, data } = useQuery<ListGroupsQuery>(LIST_GROUPS);
 
-  // const { loading, data } = useQuery<ListGroupsQuery>(listGroups, {});
+  const [addGroup] = useMutation<CreateGroupMutationVariables>(ADD_GROUP, {
+    variables: {
+      input: {
+        name: groupName
+      }
+    }
+  });
 
-  // console.log(mutationResponse);
+  if (loading) return <Text>Loading</Text>;
+  if (error) return <Text>{error.message}</Text>;
 
   return (
     <ScrollView>
-      <Text>{"groups"}</Text>
-      <TextInput placeholder="title" onChangeText={text => console.log(text)} />
+      {data!.listGroups!.items!.map(props => {
+        return <Text key={props!.id}>{props!.name}</Text>;
+      })}
+      <TextInput
+        placeholder="title"
+        onChangeText={text => setGroupName(text)}
+      />
       <Button
         title="update"
         onPress={() => {
-          // addGroup();
+          groupName && addGroup();
         }}
       />
     </ScrollView>

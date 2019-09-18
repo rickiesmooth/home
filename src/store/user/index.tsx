@@ -3,7 +3,7 @@ import { reducer, initialState } from "./reducers";
 import { useActions } from "./actions";
 import { UserContextInterface } from "./interfaces";
 import { AsyncStorage } from "react-native";
-
+import API from "../../utils/api";
 const UserContext = React.createContext<UserContextInterface>(
   {} as UserContextInterface
 );
@@ -14,9 +14,10 @@ const UserProvider: React.FC = ({ children }) => {
 
   const actions = useActions(state, dispatch);
 
-  AsyncStorage.getItem("userToken").then(res => {
-    if (!state.loggedIn && res) {
-      actions.login(res);
+  AsyncStorage.getItem("userToken").then(jwt => {
+    if (!state.loggedIn && jwt) {
+      API.jwt = jwt;
+      actions.login(jwt);
     }
   });
 

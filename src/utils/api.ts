@@ -5,11 +5,6 @@ export const GATEWAY_URL = "https://hotf.mozilla-iot.org";
 
 class GatewayService {
   jwt = "";
-  constructor() {
-    AsyncStorage.getItem("userToken").then(jwt => {
-      this.jwt = jwt || "";
-    });
-  }
 
   headers() {
     return {
@@ -156,7 +151,7 @@ class GatewayService {
 
   logout() {
     this.assertJWT();
-    localStorage.removeItem("jwt");
+    AsyncStorage.removeItem("userToken");
     return {
       url: "/log-out",
       opts: {
@@ -289,7 +284,6 @@ class GatewayService {
   ): Promise<{ data?: T; error?: Error }> {
     const response = { data: void 0, error: void 0 };
     try {
-      console.log(this.headers());
       response.data = await fetch(`${GATEWAY_URL}${input}`, {
         headers: {
           ...this.headers(),
@@ -297,7 +291,6 @@ class GatewayService {
         }
       }).then(res => res.json());
     } catch (error) {
-      console.log(error);
       response.error = error;
     }
     return response;

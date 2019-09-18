@@ -18,7 +18,6 @@ export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ACTION_TYPES.THINGS_INIT:
       const { things } = action.data;
-      console.log(action);
       return {
         ...state,
         things: [...(things || [])],

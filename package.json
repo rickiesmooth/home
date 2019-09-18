@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.1",
     "@expo/webpack-config": "^0.7.3",
     "@react-navigation/core": "^3.5.1",
     "@react-navigation/native": "^3.5.0",
@@ -12,9 +13,12 @@
     "@types/ramda": "^0.26.22",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
+    "apollo-client": "2.6.3",
     "aws-amplify": "^1.1.40",
+    "aws-appsync": "^2.0.0",
     "babel-preset-expo": "^5.2.0",
     "expo": "^34.0.1",
+    "graphql-tag": "^2.10.1",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
     "react-async": "^8.0.0",
@@ -51,5 +55,8 @@
   },
   "devDependencies": {
     "@types/react-native": "^0.60.15"
+  },
+  "resolutions": {
+    "apollo-client": "2.6.3"
   }
 }
