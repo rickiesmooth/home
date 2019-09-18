@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@expo/webpack-config": "^0.7.3",
-    "@react-navigation/core": "^3.4.2",
+    "@react-navigation/core": "^3.5.1",
     "@react-navigation/native": "^3.5.0",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@types/jest": "24.0.15",
