@@ -4,7 +4,6 @@ import { View, TextInput, Button, AsyncStorage } from "react-native";
 import { useFetch } from "../utils/useFetch";
 import API from "../utils/api";
 import { Redirect } from "../navigation/Redirect";
-// import "./App.css";
 
 const LoadUser = ({ email, password }: any) => {
   const { url, opts } = API.login(email, password);
@@ -19,7 +18,7 @@ const LoadUser = ({ email, password }: any) => {
   return null;
 };
 
-export const SignInScreen: React.FC = () => {
+export const SignIn: React.FC = () => {
   const [credentials, setCredentials] = React.useState({
     email: "",
     password: "",
@@ -60,3 +59,12 @@ export const SignInScreen: React.FC = () => {
     </View>
   );
 };
+
+export class SignInScreen extends React.Component {
+  static navigationOptions = {
+    title: "Sign in"
+  };
+  render() {
+    return <SignIn />;
+  }
+}

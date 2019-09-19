@@ -1,14 +1,11 @@
 import React from "react";
+import { UserProvider, UserContext } from "./store/user";
+import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
+import { ApolloProvider } from "@apollo/react-common";
 import AppNavigatorWeb from "./navigation/AppNavigator";
 import { ThingsProvider, ThingsContext } from "./store/things";
-import { UserProvider, UserContext } from "./store/user";
-import Amplify from "aws-amplify";
-import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
 import awsconfig from "./aws-exports";
 import "./App.css";
-import { ApolloProvider } from "@apollo/react-common";
-
-Amplify.configure(awsconfig);
 
 export const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,

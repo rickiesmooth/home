@@ -2,39 +2,15 @@ import React from "react";
 import { Platform } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-
-// import TabBarIcon from "../components/TabBarIcon";
-import { HomeScreen } from "../screens/HomeScreen";
+import { TabBarIcon } from "../components/TabBarIcon/TabBarIcon";
+import { HomeStack } from "../screens/Home";
 import { DevicesScreen } from "../screens/Devices";
 import { SettingsScreen } from "../screens/Settings";
-import { TabBarIcon } from "../components/TabBarIcon/TabBarIcon";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
 });
-
-const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen
-  },
-  config
-);
-
-HomeStack.navigationOptions = {
-  tabBarLabel: "Home",
-  tabBarIcon: (focused: boolean) => (
-    <TabBarIcon
-      name={
-        Platform.OS === "ios"
-          ? `ios-information-circle${focused ? "" : "-outline"}`
-          : `md-information-circle${focused ? "" : "-outline"}`
-      }
-    />
-  )
-};
-
-HomeStack.path = "";
 
 const DevicesStack = createStackNavigator(
   {

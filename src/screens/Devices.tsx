@@ -3,7 +3,7 @@ import { Text, StyleSheet, ScrollView } from "react-native";
 import { ThingsContext } from "../store/things";
 import { ThingElement } from "../components/Thing/Thing";
 
-export const DevicesScreen = () => {
+export const Devices = () => {
   const {
     state: { things, loading, error }
   } = useContext(ThingsContext);
@@ -34,3 +34,12 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+export class DevicesScreen extends React.Component {
+  static navigationOptions = {
+    title: "Devices"
+  };
+  render() {
+    return <Devices />;
+  }
+}

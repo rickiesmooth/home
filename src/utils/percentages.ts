@@ -1,4 +1,4 @@
-import { ThingPropertyNormalized } from "../store/interfaces";
+import { ThingPropertyNormalized } from "../store/things/interfaces";
 import pipe from "ramda/es/pipe";
 
 type utilFn = (ops: number[]) => number;

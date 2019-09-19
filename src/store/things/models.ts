@@ -117,19 +117,12 @@ export class Thing implements ThingModel {
   debouncedFetch = debounce<[string, Partial<ThingModelValues>]>(
     250,
     ([key, val]) => {
-      // doFetch<ThingModelValues>(`${this.href}/properties/${key}`, {
-      //   method: "PUT",
-      //   body: JSON.stringify({
-      //     [key]: val
-      //   })
-      // });
       const { url, opts } = API.updateProperty(
         `${this.href}/properties/${key}`,
         {
           [key]: val
         }
       );
-
       API.fetch<ThingModelValues>(url, opts);
     }
   );

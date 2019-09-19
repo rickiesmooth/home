@@ -7,8 +7,8 @@ export const useFetch: typeof useAsyncFetch = (path, init = {}, options) => {
     {
       ...init,
       headers: {
-        ...init.headers,
-        ...API.headers()
+        ...API.headers(),
+        ...init.headers
       }
     },
     options

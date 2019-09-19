@@ -288,7 +288,8 @@ class GatewayService {
         headers: {
           ...this.headers(),
           ...init.headers
-        }
+        },
+        ...init
       }).then(res => res.json());
     } catch (error) {
       response.error = error;

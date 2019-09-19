@@ -26,6 +26,7 @@ type ThingPropertyRaw = {
   minimum: number;
   title: string;
   unit: string;
+  ["@type"]: string;
 };
 
 export type ThingPropertiesRaw = {
@@ -44,6 +45,7 @@ export type ThingPropertyNormalized = {
   title: string;
   minimum: number;
   maximum: number;
+  ["@type"]: string;
 };
 
 export type ThingModelProperties = {
