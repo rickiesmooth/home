@@ -13,7 +13,7 @@
     "@types/ramda": "^0.26.22",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
-    "apollo-client": "2.6.3",
+    "apollo-client": "2.6.4",
     "aws-amplify": "^1.1.40",
     "aws-appsync": "^2.0.0",
     "babel-preset-expo": "^5.2.0",
@@ -57,6 +57,6 @@
     "@types/react-native": "^0.60.15"
   },
   "resolutions": {
-    "apollo-client": "2.6.3"
+    "apollo-client": "2.6.4"
   }
 }
