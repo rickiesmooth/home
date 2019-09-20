@@ -6,7 +6,7 @@ export const GATEWAY_URL = "https://hotf.mozilla-iot.org";
 class GatewayService {
   jwt = "";
 
-  headers() {
+  get headers() {
     return {
       "Content-Type": "application/json",
       ...(this.jwt && { Authorization: `Bearer ${this.jwt}` })
@@ -34,7 +34,7 @@ class GatewayService {
     return {
       url: "/things/",
       opts: {
-        headers: this.headers()
+        headers: this.headers
       }
     };
   }
@@ -56,6 +56,15 @@ class GatewayService {
     };
   }
 
+  things() {
+    return {
+      url: `${GATEWAY_URL}/things`,
+      opts: {
+        headers: this.headers
+      }
+    };
+  }
+
   getUser(id: string) {
     return {
       url: `/users/${encodeURIComponent(id)}`,
@@ -72,7 +81,7 @@ class GatewayService {
         method: "POST",
         headers: {
           Accept: "application/json",
-          ...this.headers()
+          ...this.headers
         },
         body: JSON.stringify({
           name,
@@ -95,7 +104,7 @@ class GatewayService {
       opts: {
         method: "PUT",
         headers: {
-          ...this.headers(),
+          ...this.headers,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ id, name, email, password, newPassword })
@@ -109,7 +118,7 @@ class GatewayService {
         method: "POST",
         headers: {
           Accept: "application/json",
-          ...this.headers()
+          ...this.headers
         },
         body: JSON.stringify({ domainName })
       }
@@ -117,10 +126,10 @@ class GatewayService {
   }
   deleteUser(id: string) {
     return {
-      url: `/users/${encodeURIComponent(id)}`,
+      url: `${GATEWAY_URL}/users/${encodeURIComponent(id)}`,
       opts: {
         method: "DELETE",
-        headers: this.headers()
+        headers: this.headers
       }
     };
   }
@@ -128,13 +137,13 @@ class GatewayService {
     return {
       url: "/users/info",
       opts: {
-        headers: this.headers()
+        headers: this.headers
       }
     };
   }
   login(email: string, password: string) {
     return {
-      url: "/login/",
+      url: `${GATEWAY_URL}/login`,
       opts: {
         method: "POST",
         headers: {
@@ -157,7 +166,7 @@ class GatewayService {
       opts: {
         method: "POST",
         headers: {
-          ...this.headers(),
+          ...this.headers,
           Accept: "application/json"
         }
       }
@@ -175,7 +184,7 @@ class GatewayService {
         body,
         method: "PUT",
         headers: {
-          ...this.headers(),
+          ...this.headers,
           Accept: "application/json"
         }
       }
@@ -194,7 +203,7 @@ class GatewayService {
         body: JSON.stringify(payload),
         headers: {
           Accept: "application/json",
-          ...this.headers()
+          ...this.headers
         }
       }
     };
@@ -213,7 +222,7 @@ class GatewayService {
         body: JSON.stringify(payload),
         headers: {
           Accept: "application/json",
-          ...this.headers()
+          ...this.headers
         }
       }
     };
@@ -224,7 +233,7 @@ class GatewayService {
       opts: {
         method: "DELETE",
         headers: {
-          ...this.headers(),
+          ...this.headers,
           Accept: "application/json"
         }
       }
@@ -242,7 +251,7 @@ class GatewayService {
         method: "PATCH",
         body: JSON.stringify(payload),
         headers: {
-          ...this.headers(),
+          ...this.headers,
           Accept: "application/json"
         }
       }
@@ -252,7 +261,7 @@ class GatewayService {
     return {
       url: "/updates/status",
       opts: {
-        headers: this.headers()
+        headers: this.headers
       }
     };
   }
@@ -261,7 +270,7 @@ class GatewayService {
     return {
       url: "/updates/latest",
       opts: {
-        headers: this.headers()
+        headers: this.headers
       }
     };
   }
@@ -273,7 +282,7 @@ class GatewayService {
       opts: {
         body,
         method: "PUT",
-        headers: this.headers()
+        headers: this.headers
       }
     };
   }
@@ -284,9 +293,9 @@ class GatewayService {
   ): Promise<{ data?: T; error?: Error }> {
     const response = { data: void 0, error: void 0 };
     try {
-      response.data = await fetch(`${GATEWAY_URL}${input}`, {
+      response.data = await fetch(input, {
         headers: {
-          ...this.headers(),
+          ...this.headers,
           ...init.headers
         },
         ...init

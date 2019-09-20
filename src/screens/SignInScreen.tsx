@@ -1,64 +1,78 @@
 import React from "react";
-import { View, TextInput, Button, AsyncStorage } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  AsyncStorage,
+  StyleSheet
+} from "react-native";
 
-import { useFetch } from "../utils/useFetch";
+import { useFetch } from "react-async";
 import API from "../utils/api";
 import { Redirect } from "../navigation/Redirect";
-
-const LoadUser = ({ email, password }: any) => {
-  const { url, opts } = API.login(email, password);
-  const { data, error, isPending } = useFetch<{ jwt: string }>(url, opts);
-
-  if (error) return <p>"error"</p>;
-  if (isPending) return <p>"loading"</p>;
-  if (data) {
-    AsyncStorage.setItem("userToken", data.jwt);
-    return <Redirect to="App" />;
-  }
-  return null;
-};
 
 export const SignIn: React.FC = () => {
   const [credentials, setCredentials] = React.useState({
     email: "",
-    password: "",
-    submit: false
+    password: ""
   });
-  const { submit, ...rest } = credentials;
+
+  const { url, opts } = API.login(credentials.email, credentials.password);
+  const { run, isResolved, data } = useFetch<{ jwt: string }>(url, opts, {
+    defer: true
+  });
+
+  if (isResolved) {
+    AsyncStorage.setItem("userToken", data!.jwt);
+    return <Redirect to="App" />;
+  }
 
   return (
-    <View>
-      <TextInput
-        placeholder="username"
-        onChangeText={email => {
-          setCredentials({
-            ...credentials,
-            email
-          });
-        }}
-      />
-      <TextInput
-        placeholder="password"
-        onChangeText={password =>
-          setCredentials({
-            ...credentials,
-            password
-          })
-        }
-      />
-      <Button
-        title="submit"
-        onPress={() => {
-          setCredentials({
-            ...credentials,
-            submit: true
-          });
-        }}
-      />
-      {submit && <LoadUser {...rest} />}
+    <View style={styles.loginContainer}>
+      <View>
+        <TextInput
+          style={styles.input}
+          placeholder="username"
+          textContentType="emailAddress"
+          onChangeText={email => {
+            setCredentials({
+              ...credentials,
+              email
+            });
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="password"
+          secureTextEntry={true}
+          onChangeText={password =>
+            setCredentials({
+              ...credentials,
+              password
+            })
+          }
+        />
+        <Button
+          title="submit"
+          onPress={async () => {
+            run();
+          }}
+        />
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  loginContainer: {
+    maxWidth: 350,
+    width: "100%",
+    marginHorizontal: "auto"
+  },
+  input: {
+    paddingVertical: 16
+  }
+});
 
 export class SignInScreen extends React.Component {
   static navigationOptions = {

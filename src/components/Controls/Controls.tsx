@@ -61,7 +61,7 @@ const ControlsSwitcher: React.FC<SwitchProps> = ({
         property
       );
       return (
-        <View>
+        <View style={{ display: "flex", maxWidth: 400 }}>
           <Text>{`colortemp level ${colorTemperaturePercentage}`}</Text>
           <Slider
             {...sharedProperties}

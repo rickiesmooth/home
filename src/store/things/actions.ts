@@ -26,7 +26,8 @@ export const useActions = (_state: State, dispatch: React.Dispatch<Action>) => {
       });
     },
     initThings: async function(token: string) {
-      const { data, error } = await API.fetch<ThingRaw[]>("/things");
+      const { url, opts } = API.things();
+      const { data, error } = await API.fetch<ThingRaw[]>(url, opts);
 
       dispatch({
         type: ACTION_TYPES.THINGS_INIT,

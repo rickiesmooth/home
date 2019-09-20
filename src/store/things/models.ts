@@ -5,46 +5,13 @@ import {
   ThingModelValues,
   ThingRaw
 } from "./interfaces";
-import API from "../../utils/api";
+import API, { GATEWAY_URL } from "../../utils/api";
 import { debounce } from "../../utils/throttle";
 import { whereEq } from "ramda";
 import { AsyncStorage } from "react-native";
 
 export type FetchData<T> = { loading: boolean; result?: T; error?: string };
 
-const GATEWAY_URL = "https://hotf.mozilla-iot.org";
-
-export async function doFetch<T>(
-  input: RequestInfo,
-  init: RequestInit = {}
-): Promise<FetchData<T>> {
-  let result = null;
-  let error = null;
-  try {
-    const userToken = await AsyncStorage.getItem("userToken");
-    const res = await fetch(GATEWAY_URL + input, {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${userToken}`,
-        ...init.headers
-      },
-      ...init
-    });
-
-    if (res.ok) {
-      result = await res.json();
-    } else {
-      throw new Error(res.statusText);
-    }
-  } catch (e) {
-    error = e;
-  }
-  return {
-    result,
-    error,
-    loading: false
-  };
-}
 function normalizeRawThingProperties(
   rawItem: ThingPropertiesRaw
 ): Partial<ThingModelProperties> {
@@ -101,7 +68,7 @@ export class Thing implements ThingModel {
 
   fetchValues = async () => {
     const { data } = await API.fetch<ThingModelValues>(
-      `${this.href}/properties`
+      `${GATEWAY_URL}${this.href}/properties`
     );
     this.onPropertyStatus(data!);
   };
@@ -118,7 +85,7 @@ export class Thing implements ThingModel {
     250,
     ([key, val]) => {
       const { url, opts } = API.updateProperty(
-        `${this.href}/properties/${key}`,
+        `${GATEWAY_URL}${this.href}/properties/${key}`,
         {
           [key]: val
         }
