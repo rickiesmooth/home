@@ -6,12 +6,13 @@ import {
   AsyncStorage,
   StyleSheet
 } from "react-native";
-
 import { useFetch } from "react-async";
 import API from "../utils/api";
 import { Redirect } from "../navigation/Redirect";
+import { UserContext } from "../store/user";
 
 export const SignIn: React.FC = () => {
+  const { actions } = React.useContext(UserContext);
   const [credentials, setCredentials] = React.useState({
     email: "",
     password: ""
@@ -24,6 +25,8 @@ export const SignIn: React.FC = () => {
 
   if (isResolved) {
     AsyncStorage.setItem("userToken", data!.jwt);
+    actions.login(data!.jwt);
+
     return <Redirect to="App" />;
   }
 
