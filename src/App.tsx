@@ -5,7 +5,6 @@ import { ApolloProvider } from "@apollo/react-common";
 import AppNavigatorWeb from "./navigation/AppNavigator";
 import { ThingsProvider, ThingsContext } from "./store/things";
 import awsconfig from "./aws-exports";
-import "./App.css";
 
 export const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,

@@ -32,7 +32,7 @@ export const SignIn: React.FC = () => {
 
   return (
     <View style={styles.loginContainer}>
-      <View>
+      <View style={{ marginVertical: "auto" }}>
         <TextInput
           style={styles.input}
           placeholder="username"
@@ -55,12 +55,7 @@ export const SignIn: React.FC = () => {
             })
           }
         />
-        <Button
-          title="submit"
-          onPress={async () => {
-            run();
-          }}
-        />
+        <Button title="submit" onPress={run} />
       </View>
     </View>
   );
@@ -70,9 +65,11 @@ const styles = StyleSheet.create({
   loginContainer: {
     maxWidth: 350,
     width: "100%",
-    marginHorizontal: "auto"
+    marginHorizontal: "auto",
+    height: "100vh"
   },
   input: {
+    marginTop: "auto",
     paddingVertical: 16
   }
 });

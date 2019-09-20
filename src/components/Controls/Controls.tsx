@@ -5,7 +5,7 @@ import {
   ThingPropertyNormalized
 } from "../../store/things/interfaces";
 import { View, Text, Switch, ViewProps } from "react-native";
-import Slider from "../Slider/Slider.web";
+import Slider from "../Elements/Slider/Slider.web";
 import { valueToPercentage, percentageToValue } from "../../utils/percentages";
 import pipe from "ramda/es/pipe";
 
@@ -61,7 +61,7 @@ const ControlsSwitcher: React.FC<SwitchProps> = ({
         property
       );
       return (
-        <View style={{ display: "flex", maxWidth: 400 }}>
+        <View>
           <Text>{`colortemp level ${colorTemperaturePercentage}`}</Text>
           <Slider
             {...sharedProperties}
@@ -80,17 +80,15 @@ export const Controls: React.FC<Props> = ({
   values,
   updateThing,
   style
-}) => {
-  return (
-    <View style={style}>
-      {Object.values(properties).map((val, i) => (
-        <ControlsSwitcher
-          key={i}
-          updateThing={updateThing}
-          property={val!}
-          values={values}
-        />
-      ))}
-    </View>
-  );
-};
+}) => (
+  <View style={style}>
+    {Object.values(properties).map((val, i) => (
+      <ControlsSwitcher
+        key={i}
+        updateThing={updateThing}
+        property={val!}
+        values={values}
+      />
+    ))}
+  </View>
+);

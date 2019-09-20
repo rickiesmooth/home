@@ -1,15 +1,39 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+import { Container } from "../components/Elements/Container/Container";
 
-export const SettingsScreen = () => {
+export const Settings = () => {
+  const settings = [
+    "Domain",
+    "Network",
+    "Updates",
+    "Authorizations",
+    "Experiments",
+    "Developer"
+  ];
   return (
-    <View>
-      <Text>Domain</Text>
-      <Text>Network</Text>
-      <Text>Updates</Text>
-      <Text>Authorizations</Text>
-      <Text>Experiments</Text>
-      <Text>Developer</Text>
-    </View>
+    <Container>
+      <View>
+        {settings.map(setting => (
+          <Text style={styles.setting}>{setting}</Text>
+        ))}
+      </View>
+    </Container>
   );
 };
+
+export class SettingsScreen extends React.Component {
+  static navigationOptions = {
+    title: "Settings"
+  };
+  render() {
+    return <Settings />;
+  }
+}
+
+const styles = StyleSheet.create({
+  setting: {
+    paddingVertical: 8,
+    fontSize: 16
+  }
+});

@@ -1,10 +1,12 @@
 import React from "react";
-import { Text, ScrollView, StyleSheet } from "react-native";
+import { Text, ScrollView, Button } from "react-native";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { listGroups } from "../../graphql/queries";
 import { ListGroupsQuery } from "../../graphql/API";
 import { Link } from "@react-navigation/web";
+import { Group } from "../../components/Group/Group";
+import { Container } from "../../components/Elements/Container/Container";
 
 const LIST_GROUPS = gql`
   ${listGroups}
@@ -17,24 +19,16 @@ const Home = () => {
   if (error) return <Text>{error.message}</Text>;
 
   return (
-    <ScrollView>
-      {data!.listGroups!.items!.map(props => {
-        return (
-          <Text style={styles.groupItem} key={props!.id}>
-            {props!.name}
-          </Text>
-        );
-      })}
-      <Link routeName="CreateGroup">create group</Link>
-    </ScrollView>
+    <Container>
+      {data!.listGroups!.items!.map(props => (
+        <Group key={props!.id} {...props!} />
+      ))}
+      <Link routeName="CreateGroup">
+        <Button title="create group" onPress={() => null} />
+      </Link>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  groupItem: {
-    padding: 16
-  }
-});
 
 export class HomeScreen extends React.Component {
   static navigationOptions = {

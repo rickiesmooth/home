@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { Text, StyleSheet, ScrollView } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { ThingsContext } from "../store/things";
 import { ThingElement } from "../components/Thing/Thing";
+import { Container } from "../components/Elements/Container/Container";
 
 export const Devices = () => {
   const {
@@ -11,14 +12,11 @@ export const Devices = () => {
   if (loading) return <Text>"Loading"</Text>;
   if (error) return <Text>"error "</Text>;
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
-    >
+    <Container>
       {things.map(thing => (
         <ThingElement key={thing.id} thing={thing} />
       ))}
-    </ScrollView>
+    </Container>
   );
 };
 

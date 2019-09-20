@@ -2,7 +2,7 @@ import React from "react";
 import { Platform } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-import { TabBarIcon } from "../components/TabBarIcon/TabBarIcon";
+import { TabBarIcon } from "../components/Elements/TabBarIcon/TabBarIcon";
 import { HomeStack } from "../screens/Home";
 import { DevicesScreen } from "../screens/Devices";
 import { SettingsScreen } from "../screens/Settings";

@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
 import { HomeScreen } from "./HomeScreen";
-import { TabBarIcon } from "../../components/TabBarIcon/TabBarIcon";
+import { TabBarIcon } from "../../components/Elements/TabBarIcon/TabBarIcon";
 import { Platform } from "react-native";
 import { CreateGroupScreen } from "./CreateGroupScreen";
 
