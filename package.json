@@ -12,7 +12,7 @@
     "@types/node": "12.7.7",
     "@types/ramda": "^0.26.22",
     "@types/react": "16.9.3",
-    "@types/react-dom": "16.9.0",
+    "@types/react-dom": "16.9.1",
     "apollo-client": "2.6.3",
     "aws-amplify": "^1.1.40",
     "aws-appsync": "^2.0.0",
