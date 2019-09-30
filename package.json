@@ -51,7 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-native": "^0.60.15"
+    "@types/react-native": "^0.60.17"
   },
   "resolutions": {
     "apollo-client": "2.6.3"
