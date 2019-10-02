@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/react-hooks": "^3.1.1",
+    "@apollo/react-hooks": "^3.1.2",
     "@expo/webpack-config": "^0.7.6",
     "@react-navigation/core": "^3.5.1",
     "@react-navigation/native": "^3.5.0",
