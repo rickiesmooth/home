@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text } from "react-native";
 import { ThingsContext } from "../store/things";
 import { ThingElement } from "../components/Thing/Thing";
 import { Container } from "../components/Elements/Container/Container";
@@ -19,19 +19,6 @@ export const Devices = () => {
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  contentContainer: {
-    flexDirection: "row",
-    maxWidth: 1300,
-    marginHorizontal: "auto",
-    flexWrap: "wrap",
-    justifyContent: "center"
-  }
-});
 
 export class DevicesScreen extends React.Component {
   static navigationOptions = {

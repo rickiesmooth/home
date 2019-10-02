@@ -36,7 +36,7 @@ const Root = () => {
 
 export default () => {
   return (
-    <ApolloProvider client={client as any}>
+    <ApolloProvider client={client}>
       <UserProvider>
         <ThingsProvider>
           <Root />

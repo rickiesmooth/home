@@ -1,5 +1,6 @@
 import { Action, State, ACTION_TYPES } from "./interfaces";
 import API from "../../utils/api";
+
 export const useActions = (_state: State, dispatch: React.Dispatch<Action>) => {
   return {
     login: (data: string) => {

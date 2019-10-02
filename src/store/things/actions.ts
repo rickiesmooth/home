@@ -1,10 +1,4 @@
-import {
-  Action,
-  State,
-  ThingRaw,
-  ACTION_TYPES,
-  ThingModel
-} from "./interfaces";
+import { Action, State, ACTION_TYPES, ThingModel } from "./interfaces";
 import { Thing } from "./models";
 import API from "../../utils/api";
 
@@ -26,8 +20,7 @@ export const useActions = (_state: State, dispatch: React.Dispatch<Action>) => {
       });
     },
     initThings: async function(token: string) {
-      const { url, opts } = API.things();
-      const { data, error } = await API.fetch<ThingRaw[]>(url, opts);
+      const { data, error } = await API.things();
 
       dispatch({
         type: ACTION_TYPES.THINGS_INIT,

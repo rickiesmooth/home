@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Available Services
+
+This project uses AWS Amplify for the backend that provisions and manages a couple of serverless services:
+
+- AWS AppSync GraphQL API
+- AWS Cognito User Management
+- AWS S3 Bucket and Cloudfront for static asset hosting
+
 ## Available Scripts
 
 In the project directory, you can run:

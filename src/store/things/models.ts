@@ -8,7 +8,6 @@ import {
 import API, { GATEWAY_URL } from "../../utils/api";
 import { debounce } from "../../utils/throttle";
 import { whereEq } from "ramda";
-import { AsyncStorage } from "react-native";
 
 export type FetchData<T> = { loading: boolean; result?: T; error?: string };
 
@@ -84,13 +83,9 @@ export class Thing implements ThingModel {
   debouncedFetch = debounce<[string, Partial<ThingModelValues>]>(
     250,
     ([key, val]) => {
-      const { url, opts } = API.updateProperty(
-        `${GATEWAY_URL}${this.href}/properties/${key}`,
-        {
-          [key]: val
-        }
-      );
-      API.fetch<ThingModelValues>(url, opts);
+      API.updateProperty(`${GATEWAY_URL}${this.href}/properties/${key}`, {
+        [key]: val
+      });
     }
   );
 

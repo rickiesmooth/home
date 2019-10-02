@@ -1,5 +1,5 @@
 import { AsyncStorage } from "react-native";
-import { ThingModelValues } from "../store/things/interfaces";
+import { ThingModelValues, ThingRaw } from "../store/things/interfaces";
 
 export const GATEWAY_URL = "https://hotf.mozilla-iot.org";
 
@@ -57,12 +57,9 @@ class GatewayService {
   }
 
   things() {
-    return {
-      url: `${GATEWAY_URL}/things`,
-      opts: {
-        headers: this.headers
-      }
-    };
+    return this.fetch<ThingRaw[]>(`${GATEWAY_URL}/things`, {
+      headers: this.headers
+    });
   }
 
   getUser(id: string) {
@@ -277,20 +274,17 @@ class GatewayService {
 
   updateProperty(url: string, payload: Partial<ThingModelValues>) {
     const body = JSON.stringify(payload);
-    return {
-      url,
-      opts: {
-        body,
-        method: "PUT",
-        headers: this.headers
-      }
-    };
+    this.fetch(url, {
+      body,
+      method: "PUT",
+      headers: this.headers
+    });
   }
 
-  async fetch<T>(
+  fetch = async <T>(
     input: RequestInfo,
     init: RequestInit = {}
-  ): Promise<{ data?: T; error?: Error }> {
+  ): Promise<{ data?: T; error?: Error }> => {
     const response = { data: void 0, error: void 0 };
     try {
       response.data = await fetch(input, {
@@ -304,7 +298,7 @@ class GatewayService {
       response.error = error;
     }
     return response;
-  }
+  };
 }
 
 export default new GatewayService();

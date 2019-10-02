@@ -14,8 +14,10 @@ export const Settings = () => {
   return (
     <Container>
       <View>
-        {settings.map(setting => (
-          <Text style={styles.setting}>{setting}</Text>
+        {settings.map((setting, i) => (
+          <Text key={i} style={styles.setting}>
+            {setting}
+          </Text>
         ))}
       </View>
     </Container>

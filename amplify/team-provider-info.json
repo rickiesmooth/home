@@ -9,6 +9,13 @@
             "UnauthRoleName": "cool-home-prod-20190917175932-unauthRole",
             "StackName": "cool-home-prod-20190917175932",
             "StackId": "arn:aws:cloudformation:eu-central-1:331208789346:stack/cool-home-prod-20190917175932/2340ff50-d964-11e9-8f46-0649507b8a60"
+        },
+        "categories": {
+            "auth": {
+                "coolhome": {
+                    "hostedUIProviderCreds": "[]"
+                }
+            }
         }
     }
 }

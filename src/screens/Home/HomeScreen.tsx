@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, ScrollView, Button } from "react-native";
+import { Text, StyleSheet, Button, View } from "react-native";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { listGroups } from "../../graphql/queries";
@@ -19,18 +19,27 @@ const Home = () => {
   if (error) return <Text>{error.message}</Text>;
 
   return (
-    <Container>
-      {data!.listGroups!.items!.map(props => (
-        <Group key={props!.id} {...props!} />
-      ))}
-      <Link routeName="CreateGroup">
-        <Button title="create group" onPress={() => null} />
-      </Link>
-    </Container>
+    <>
+      <View
+        style={{
+          padding: 32,
+          margin: "auto"
+        }}
+      >
+        <Link routeName="CreateGroup">
+          <Text style={styles.button}>create group</Text>
+        </Link>
+      </View>
+      <Container>
+        {data!.listGroups!.items!.map(props => (
+          <Group key={props!.id} {...props!} />
+        ))}
+      </Container>
+    </>
   );
 };
 
-export class HomeScreen extends React.Component {
+export class HomeScreen extends React.Component<any> {
   static navigationOptions = {
     title: "Home"
   };
@@ -38,3 +47,13 @@ export class HomeScreen extends React.Component {
     return <Home />;
   }
 }
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 16,
+    borderRadius: 4,
+    textAlign: "center",
+    backgroundColor: "#2196F3",
+    color: "white"
+  }
+});
