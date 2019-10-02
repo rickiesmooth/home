@@ -13,7 +13,7 @@ import gql from "graphql-tag";
 import { createGroup } from "../../graphql/mutations";
 import { ThingsContext } from "../../store/things";
 import { ThingModel } from "../../store/things/interfaces";
-import { Controls } from "../../components/Controls/Controls";
+import { Controls } from "../../components/Features/Controls/Controls";
 import { group } from "../../utils/group";
 import { Container } from "../../components/Elements/Container/Container";
 

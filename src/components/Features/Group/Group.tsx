@@ -1,14 +1,17 @@
 import React from "react";
 import { Text } from "react-native";
-import { ThingsContext } from "../../store/things";
-import { GetGroupQuery, DeleteGroupMutationVariables } from "../../graphql/API";
+import { ThingsContext } from "../../../store/things";
+import {
+  GetGroupQuery,
+  DeleteGroupMutationVariables
+} from "../../../graphql/API";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { deleteGroup } from "../../graphql/mutations";
-import { group } from "../../utils/group";
-import { ThingModel, ThingModelValues } from "../../store/things/interfaces";
+import { deleteGroup } from "../../../graphql/mutations";
+import { group } from "../../../utils/group";
+import { ThingModel, ThingModelValues } from "../../../store/things/interfaces";
 import { Controls } from "../Controls/Controls";
-import { Card } from "../Elements/Card/Card";
+import { Card } from "../../Elements/Card/Card";
 
 const DELETE_GROUP = gql`
   ${deleteGroup}

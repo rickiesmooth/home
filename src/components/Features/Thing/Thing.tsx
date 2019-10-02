@@ -1,7 +1,7 @@
 import React from "react";
-import { ThingModel } from "../../store/things/interfaces";
+import { ThingModel } from "../../../store/things/interfaces";
 import { Controls } from "../Controls/Controls";
-import { Card } from "../Elements/Card/Card";
+import { Card } from "../../Elements/Card/Card";
 
 type Props = {
   thing: ThingModel;

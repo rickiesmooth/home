@@ -1,11 +1,11 @@
 import React from "react";
-import { Text, StyleSheet, Button, View } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { listGroups } from "../../graphql/queries";
 import { ListGroupsQuery } from "../../graphql/API";
 import { Link } from "@react-navigation/web";
-import { Group } from "../../components/Group/Group";
+import { Group } from "../../components/Features/Group/Group";
 import { Container } from "../../components/Elements/Container/Container";
 
 const LIST_GROUPS = gql`

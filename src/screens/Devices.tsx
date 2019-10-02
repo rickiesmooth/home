@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Text } from "react-native";
 import { ThingsContext } from "../store/things";
-import { ThingElement } from "../components/Thing/Thing";
+import { ThingElement } from "../components/Features/Thing/Thing";
 import { Container } from "../components/Elements/Container/Container";
 
 export const Devices = () => {

@@ -3,10 +3,13 @@ import {
   ThingModelProperties,
   ThingModelValues,
   ThingPropertyNormalized
-} from "../../store/things/interfaces";
+} from "../../../store/things/interfaces";
 import { View, Text, Switch, ViewProps } from "react-native";
-import Slider from "../Elements/Slider/Slider.web";
-import { valueToPercentage, percentageToValue } from "../../utils/percentages";
+import Slider from "../../Elements/Slider/Slider.web";
+import {
+  valueToPercentage,
+  percentageToValue
+} from "../../../utils/percentages";
 import pipe from "ramda/es/pipe";
 
 interface Props extends ViewProps {

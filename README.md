@@ -12,9 +12,9 @@ This project uses AWS Amplify for the backend that provisions and manages a coup
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm start:web`
 
-Runs the app in the development mode.<br>
+Runs the web app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
