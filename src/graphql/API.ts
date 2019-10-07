@@ -5,16 +5,38 @@ export type CreateGroupInput = {
   id?: string | null,
   name: string,
   devices?: Array< string > | null,
+  groupAuthorId?: string | null,
 };
 
 export type UpdateGroupInput = {
   id: string,
   name?: string | null,
   devices?: Array< string > | null,
+  groupAuthorId?: string | null,
 };
 
 export type DeleteGroupInput = {
   id?: string | null,
+};
+
+export type UpdateUserInput = {
+  id: string,
+  username?: string | null,
+  hubToken?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+};
+
+export type DeleteUserInput = {
+  id?: string | null,
+};
+
+export type CreateUserInput = {
+  id?: string | null,
+  username: string,
+  hubToken?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type ModelGroupFilterInput = {
@@ -52,6 +74,17 @@ export type ModelStringFilterInput = {
   beginsWith?: string | null,
 };
 
+export type ModelUserFilterInput = {
+  id?: ModelIDFilterInput | null,
+  username?: ModelStringFilterInput | null,
+  hubToken?: ModelStringFilterInput | null,
+  createdAt?: ModelStringFilterInput | null,
+  updatedAt?: ModelStringFilterInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+};
+
 export type CreateGroupMutationVariables = {
   input: CreateGroupInput,
 };
@@ -62,6 +95,18 @@ export type CreateGroupMutation = {
     id: string,
     name: string,
     devices: Array< string > | null,
+    author:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      groups:  {
+        __typename: "ModelGroupConnection",
+        nextToken: string | null,
+      } | null,
+      hubToken: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
+    } | null,
   } | null,
 };
 
@@ -75,6 +120,18 @@ export type UpdateGroupMutation = {
     id: string,
     name: string,
     devices: Array< string > | null,
+    author:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      groups:  {
+        __typename: "ModelGroupConnection",
+        nextToken: string | null,
+      } | null,
+      hubToken: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
+    } | null,
   } | null,
 };
 
@@ -88,6 +145,93 @@ export type DeleteGroupMutation = {
     id: string,
     name: string,
     devices: Array< string > | null,
+    author:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      groups:  {
+        __typename: "ModelGroupConnection",
+        nextToken: string | null,
+      } | null,
+      hubToken: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
+    } | null,
+  } | null,
+};
+
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+};
+
+export type UpdateUserMutation = {
+  updateUser:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    groups:  {
+      __typename: "ModelGroupConnection",
+      items:  Array< {
+        __typename: "Group",
+        id: string,
+        name: string,
+        devices: Array< string > | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    hubToken: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+};
+
+export type DeleteUserMutation = {
+  deleteUser:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    groups:  {
+      __typename: "ModelGroupConnection",
+      items:  Array< {
+        __typename: "Group",
+        id: string,
+        name: string,
+        devices: Array< string > | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    hubToken: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
+  } | null,
+};
+
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+};
+
+export type CreateUserMutation = {
+  createUser:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    groups:  {
+      __typename: "ModelGroupConnection",
+      items:  Array< {
+        __typename: "Group",
+        id: string,
+        name: string,
+        devices: Array< string > | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    hubToken: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -101,6 +245,18 @@ export type GetGroupQuery = {
     id: string,
     name: string,
     devices: Array< string > | null,
+    author:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      groups:  {
+        __typename: "ModelGroupConnection",
+        nextToken: string | null,
+      } | null,
+      hubToken: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
+    } | null,
   } | null,
 };
 
@@ -118,6 +274,64 @@ export type ListGroupsQuery = {
       id: string,
       name: string,
       devices: Array< string > | null,
+      author:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        hubToken: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    groups:  {
+      __typename: "ModelGroupConnection",
+      items:  Array< {
+        __typename: "Group",
+        id: string,
+        name: string,
+        devices: Array< string > | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    hubToken: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      username: string,
+      groups:  {
+        __typename: "ModelGroupConnection",
+        nextToken: string | null,
+      } | null,
+      hubToken: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -129,6 +343,18 @@ export type OnCreateGroupSubscription = {
     id: string,
     name: string,
     devices: Array< string > | null,
+    author:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      groups:  {
+        __typename: "ModelGroupConnection",
+        nextToken: string | null,
+      } | null,
+      hubToken: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
+    } | null,
   } | null,
 };
 
@@ -138,6 +364,18 @@ export type OnUpdateGroupSubscription = {
     id: string,
     name: string,
     devices: Array< string > | null,
+    author:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      groups:  {
+        __typename: "ModelGroupConnection",
+        nextToken: string | null,
+      } | null,
+      hubToken: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
+    } | null,
   } | null,
 };
 
@@ -147,5 +385,80 @@ export type OnDeleteGroupSubscription = {
     id: string,
     name: string,
     devices: Array< string > | null,
+    author:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      groups:  {
+        __typename: "ModelGroupConnection",
+        nextToken: string | null,
+      } | null,
+      hubToken: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    groups:  {
+      __typename: "ModelGroupConnection",
+      items:  Array< {
+        __typename: "Group",
+        id: string,
+        name: string,
+        devices: Array< string > | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    hubToken: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
+  } | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    groups:  {
+      __typename: "ModelGroupConnection",
+      items:  Array< {
+        __typename: "Group",
+        id: string,
+        name: string,
+        devices: Array< string > | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    hubToken: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
+  } | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    groups:  {
+      __typename: "ModelGroupConnection",
+      items:  Array< {
+        __typename: "Group",
+        id: string,
+        name: string,
+        devices: Array< string > | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    hubToken: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };

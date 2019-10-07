@@ -8,6 +8,7 @@
     "@react-navigation/core": "^3.5.1",
     "@react-navigation/native": "^3.5.0",
     "@react-navigation/web": "^1.0.0-alpha.9",
+    "@types/facebook-js-sdk": "^3.3.0",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.9",
     "@types/ramda": "^0.26.22",

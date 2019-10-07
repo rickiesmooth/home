@@ -16,6 +16,7 @@ import { ThingModel } from "../../store/things/interfaces";
 import { Controls } from "../../components/Features/Controls/Controls";
 import { group } from "../../utils/group";
 import { Container } from "../../components/Elements/Container/Container";
+import { UserContext } from "../../store/user";
 
 const ADD_GROUP = gql`
   ${createGroup}
@@ -25,9 +26,20 @@ const CreateGroup = () => {
   const {
     state: { things, loading, error }
   } = useContext(ThingsContext);
+  const {
+    state: { id }
+  } = useContext(UserContext);
   const [groupName, setGroupName] = React.useState("");
   const [selected, setSelected] = React.useState<ThingModel[]>([]);
-  const [addGroup] = useMutation<CreateGroupMutationVariables>(ADD_GROUP);
+  const [addGroup] = useMutation<CreateGroupMutationVariables>(ADD_GROUP, {
+    variables: {
+      input: {
+        name: groupName,
+        devices: selected.map(({ id }) => id),
+        groupAuthorId: id
+      }
+    }
+  });
 
   if (loading) {
     return <Text>loading</Text>;
@@ -89,16 +101,7 @@ const CreateGroup = () => {
         <Button
           title="update"
           disabled={!groupName || Object.entries(selected).length === 0}
-          onPress={() =>
-            addGroup({
-              variables: {
-                input: {
-                  name: groupName,
-                  devices: selected.map(({ id }) => id)
-                }
-              }
-            })
-          }
+          onPress={() => addGroup()}
         />
       </View>
     </Container>

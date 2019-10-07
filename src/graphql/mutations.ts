@@ -6,6 +6,16 @@ export const createGroup = `mutation CreateGroup($input: CreateGroupInput!) {
     id
     name
     devices
+    author {
+      id
+      username
+      groups {
+        nextToken
+      }
+      hubToken
+      createdAt
+      updatedAt
+    }
   }
 }
 `;
@@ -14,6 +24,16 @@ export const updateGroup = `mutation UpdateGroup($input: UpdateGroupInput!) {
     id
     name
     devices
+    author {
+      id
+      username
+      groups {
+        nextToken
+      }
+      hubToken
+      createdAt
+      updatedAt
+    }
   }
 }
 `;
@@ -22,6 +42,70 @@ export const deleteGroup = `mutation DeleteGroup($input: DeleteGroupInput!) {
     id
     name
     devices
+    author {
+      id
+      username
+      groups {
+        nextToken
+      }
+      hubToken
+      createdAt
+      updatedAt
+    }
+  }
+}
+`;
+export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    id
+    username
+    groups {
+      items {
+        id
+        name
+        devices
+      }
+      nextToken
+    }
+    hubToken
+    createdAt
+    updatedAt
+  }
+}
+`;
+export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
+  deleteUser(input: $input) {
+    id
+    username
+    groups {
+      items {
+        id
+        name
+        devices
+      }
+      nextToken
+    }
+    hubToken
+    createdAt
+    updatedAt
+  }
+}
+`;
+export const createUser = `mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    id
+    username
+    groups {
+      items {
+        id
+        name
+        devices
+      }
+      nextToken
+    }
+    hubToken
+    createdAt
+    updatedAt
   }
 }
 `;

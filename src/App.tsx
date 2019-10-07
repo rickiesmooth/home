@@ -5,16 +5,17 @@ import { ApolloProvider } from "@apollo/react-common";
 import AppNavigatorWeb from "./navigation/AppNavigator";
 import { ThingsProvider, ThingsContext } from "./store/things";
 import Amplify, { Auth } from "aws-amplify";
+import gql from "graphql-tag";
+import { getUser } from "./graphql/queries";
+
+const USER = gql`
+  ${getUser}
+`;
+
+Amplify.configure(awsconfig);
 
 import awsconfig from "./aws-exports";
-
-Amplify.configure({
-  Auth: {
-    region: awsconfig.aws_appsync_region, // REQUIRED - Amazon Cognito Region
-    userPoolId: awsconfig.aws_user_pools_id, //OPTIONAL - Amazon Cognito User Pool ID
-    userPoolWebClientId: awsconfig.aws_user_pools_web_client_id //User Pool App Client ID
-  }
-});
+import { GetUserQueryVariables, GetUserQuery } from "./graphql/API";
 
 export const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -29,30 +30,46 @@ export const client = new AWSAppSyncClient({
 
 const Root = () => {
   const {
-    state: { loggedIn, token }
+    state,
+    actions: { login }
   } = React.useContext(UserContext);
-
+  const { loggedIn, hubToken } = state;
   const {
     actions: { initThings }
   } = React.useContext(ThingsContext);
 
+  // check if we have loggedin user
+  React.useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(res =>
+        client.query<GetUserQuery, GetUserQueryVariables>({
+          query: USER,
+          variables: {
+            id: res.attributes.sub
+          }
+        })
+      )
+      .then(res => {
+        console.log(res.data.getUser);
+        return login(res.data.getUser);
+      })
+      .catch(e => console.log("Not signed in", e));
+  }, []);
+  // initialize things when we have hubToken from loggedin user
   const initialize = React.useCallback(() => {
-    token && initThings(token);
-  }, [token, initThings]);
-
+    hubToken && initThings(hubToken);
+  }, [hubToken, initThings]);
   React.useMemo(initialize, [loggedIn]);
 
   return <AppNavigatorWeb />;
 };
 
-export default () => {
-  return (
-    <ApolloProvider client={client}>
-      <UserProvider>
-        <ThingsProvider>
-          <Root />
-        </ThingsProvider>
-      </UserProvider>
-    </ApolloProvider>
-  );
-};
+export default () => (
+  <ApolloProvider client={client}>
+    <UserProvider>
+      <ThingsProvider>
+        <Root />
+      </ThingsProvider>
+    </UserProvider>
+  </ApolloProvider>
+);

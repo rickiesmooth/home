@@ -1,0 +1,34 @@
+type Group
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "groupAuthorId"
+        identityClaim: "sub"
+        queries: null
+      }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  devices: [String!]
+  author: User @connection(name: "UserGroups")
+}
+
+type User
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "id", identityClaim: "sub", queries: null }
+      { allow: private, provider: iam, operations: [create] }
+    ]
+  ) {
+  id: ID!
+  username: String!
+  groups: [Group] @connection(name: "UserGroups")
+  hubToken: String
+    @auth(rules: [{ allow: owner, ownerField: "id", identityClaim: "sub" }])
+  createdAt: String
+  updatedAt: String
+}
