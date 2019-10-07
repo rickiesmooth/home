@@ -1,11 +1,11 @@
 version: 1.0
-backend:
-  phases:
-    build:
-      commands:
-        - export STACKINFO="$(envCache --get stackInfo)"
-        - amplifyPush --environment $USER_BRANCH
-        - envCache --set stackInfo "$(amplify env get --json --name $USER_BRANCH)"
+# backend:
+#   phases:
+#     build:
+#       commands:
+#         - export STACKINFO="$(envCache --get stackInfo)"
+#         - amplifyPush --environment $USER_BRANCH
+#         - envCache --set stackInfo "$(amplify env get --json --name $USER_BRANCH)"
 frontend:
   phases:
     preBuild:
