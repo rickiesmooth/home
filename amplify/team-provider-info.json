@@ -15,6 +15,9 @@
                 "coolhomedb7dd735": {
                     "hostedUIProviderCreds": "[]"
                 }
+            },
+            "function": {
+                "signup": {}
             }
         }
     },

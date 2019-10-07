@@ -29,9 +29,6 @@ const appsyncClient = new AWSAppSyncClient(
 );
 
 exports.handler = async (event, context, callback) => {
-  // let body = {};
-  console.log("EVENT", event);
-
   try {
     const client = await appsyncClient.hydrated();
     await client.mutate({

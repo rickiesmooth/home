@@ -1,10 +1,10 @@
 {
-    "permissions": {
-        "api": {
-            "graphql": [
-                "create",
-                "read"
-            ]
-        }
+  "permissions": {
+    "api": {
+      "graphql": ["create", "read"]
+    },
+    "auth": {
+      "coolhomedb7dd735": ["read"]
     }
+  }
 }

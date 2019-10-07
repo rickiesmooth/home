@@ -45,6 +45,13 @@
 						"GraphQLAPIIdOutput",
 						"GraphQLAPIEndpointOutput"
 					]
+				},
+				{
+					"category": "auth",
+					"resourceName": "coolhomedb7dd735",
+					"attributes": [
+						"UserPoolId"
+					]
 				}
 			]
 		}
