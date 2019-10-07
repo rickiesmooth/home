@@ -1,10 +1,10 @@
 {
-    "AppSyncApiName": "api",
+    "AppSyncApiName": "graphql",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": "false",
     "AuthCognitoUserPoolId": {
         "Fn::GetAtt": [
-            "authcoolhome",
+            "authcoolhomedb7dd735",
             "Outputs.UserPoolId"
         ]
     }

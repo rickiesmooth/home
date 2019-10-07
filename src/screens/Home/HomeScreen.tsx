@@ -2,18 +2,24 @@ import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import { listGroups } from "../../graphql/queries";
-import { ListGroupsQuery } from "../../graphql/API";
+import { getUser } from "../../graphql/queries";
+import { GetUserQuery } from "../../graphql/API";
 import { Link } from "@react-navigation/web";
 import { Group } from "../../components/Features/Group/Group";
 import { Container } from "../../components/Elements/Container/Container";
+import { UserContext } from "../../store/user";
 
-const LIST_GROUPS = gql`
-  ${listGroups}
+const USER = gql`
+  ${getUser}
 `;
 
 const Home = () => {
-  const { loading, error, data } = useQuery<ListGroupsQuery>(LIST_GROUPS);
+  const {
+    state: { id }
+  } = React.useContext(UserContext);
+  const { loading, error, data } = useQuery<GetUserQuery>(USER, {
+    variables: { id }
+  });
 
   if (loading) return <Text>Loading</Text>;
   if (error) return <Text>{error.message}</Text>;
@@ -31,8 +37,13 @@ const Home = () => {
         </Link>
       </View>
       <Container>
-        {data!.listGroups!.items!.map(props => (
-          <Group key={props!.id} {...props!} />
+        {data!.getUser!.groups!.items!.map(props => (
+          <Group
+            key={props!.id}
+            devices={props!.devices || undefined}
+            id={props!.id}
+            name={props!.name}
+          />
         ))}
       </Container>
     </>

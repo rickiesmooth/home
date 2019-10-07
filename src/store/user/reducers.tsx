@@ -1,7 +1,10 @@
 import { State, Action, ACTION_TYPES } from "./interfaces";
 
 export const initialState: State = {
-  loggedIn: false
+  loggedIn: false,
+  id: "",
+  username: "",
+  hubToken: ""
 };
 
 export const reducer = (state: State, action: Action): State => {
@@ -10,7 +13,7 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         loggedIn: !!action.data,
-        token: action.data
+        ...action.data
       };
 
     default:

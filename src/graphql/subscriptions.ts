@@ -6,6 +6,16 @@ export const onCreateGroup = `subscription OnCreateGroup {
     id
     name
     devices
+    author {
+      id
+      username
+      groups {
+        nextToken
+      }
+      hubToken
+      createdAt
+      updatedAt
+    }
   }
 }
 `;
@@ -14,6 +24,16 @@ export const onUpdateGroup = `subscription OnUpdateGroup {
     id
     name
     devices
+    author {
+      id
+      username
+      groups {
+        nextToken
+      }
+      hubToken
+      createdAt
+      updatedAt
+    }
   }
 }
 `;
@@ -22,6 +42,70 @@ export const onDeleteGroup = `subscription OnDeleteGroup {
     id
     name
     devices
+    author {
+      id
+      username
+      groups {
+        nextToken
+      }
+      hubToken
+      createdAt
+      updatedAt
+    }
+  }
+}
+`;
+export const onUpdateUser = `subscription OnUpdateUser {
+  onUpdateUser {
+    id
+    username
+    groups {
+      items {
+        id
+        name
+        devices
+      }
+      nextToken
+    }
+    hubToken
+    createdAt
+    updatedAt
+  }
+}
+`;
+export const onDeleteUser = `subscription OnDeleteUser {
+  onDeleteUser {
+    id
+    username
+    groups {
+      items {
+        id
+        name
+        devices
+      }
+      nextToken
+    }
+    hubToken
+    createdAt
+    updatedAt
+  }
+}
+`;
+export const onCreateUser = `subscription OnCreateUser {
+  onCreateUser {
+    id
+    username
+    groups {
+      items {
+        id
+        name
+        devices
+      }
+      nextToken
+    }
+    hubToken
+    createdAt
+    updatedAt
   }
 }
 `;

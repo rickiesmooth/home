@@ -1,15 +1,19 @@
 {
 	"api": {
-		"api": {
+		"graphql": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {
 				"authConfig": {
-					"additionalAuthenticationProviders": [],
+					"additionalAuthenticationProviders": [
+						{
+							"authenticationType": "AWS_IAM"
+						}
+					],
 					"defaultAuthentication": {
 						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
 						"userPoolConfig": {
-							"userPoolId": "authcoolhome"
+							"userPoolId": "authcoolhomedb7dd735"
 						}
 					}
 				}
@@ -23,10 +27,26 @@
 		}
 	},
 	"auth": {
-		"coolhome": {
+		"coolhomedb7dd735": {
 			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"function": {
+		"signup": {
+			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
-			"dependsOn": []
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "graphql",
+					"attributes": [
+						"GraphQLAPIIdOutput",
+						"GraphQLAPIEndpointOutput"
+					]
+				}
+			]
 		}
 	}
 }

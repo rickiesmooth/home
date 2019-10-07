@@ -12,9 +12,32 @@
         },
         "categories": {
             "auth": {
-                "coolhome": {
+                "coolhomedb7dd735": {
                     "hostedUIProviderCreds": "[]"
                 }
+            }
+        }
+    },
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "cool-home-dev-20191007155131-authRole",
+            "UnauthRoleArn": "arn:aws:iam::331208789346:role/cool-home-dev-20191007155131-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::331208789346:role/cool-home-dev-20191007155131-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "cool-home-dev-20191007155131-deployment",
+            "UnauthRoleName": "cool-home-dev-20191007155131-unauthRole",
+            "StackName": "cool-home-dev-20191007155131",
+            "StackId": "arn:aws:cloudformation:eu-central-1:331208789346:stack/cool-home-dev-20191007155131/91bd98d0-e909-11e9-b693-0ac03387fd40"
+        },
+        "categories": {
+            "auth": {
+                "coolhomedb7dd735": {
+                    "hostedUIProviderCreds": "[]"
+                }
+            },
+            "function": {
+                "signup": {},
+                "graphql": {}
             }
         }
     }

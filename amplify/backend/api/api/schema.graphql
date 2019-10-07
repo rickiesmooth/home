@@ -1,5 +1,0 @@
-type Group @model {
-  id: ID!
-  name: String!
-  devices: [String!]
-}

@@ -3,10 +3,11 @@ import { ActivityIndicator, StatusBar, View, AsyncStorage } from "react-native";
 import { UserContext } from "../store/user";
 
 export const AuthLoadingScreen: React.FC<any> = ({ navigation }) => {
-  AsyncStorage.getItem("userToken").then(res => {
-    const isLoggedIn = Boolean(res);
-    navigation.navigate(isLoggedIn ? "App" : "Auth");
-  });
+  const {
+    state: { id }
+  } = React.useContext(UserContext);
+
+  navigation.navigate(Boolean(id) ? "App" : "Auth");
 
   return (
     <View>
