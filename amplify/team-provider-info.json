@@ -1,26 +1,4 @@
 {
-    "prod": {
-        "awscloudformation": {
-            "AuthRoleName": "cool-home-prod-20190917175932-authRole",
-            "UnauthRoleArn": "arn:aws:iam::331208789346:role/cool-home-prod-20190917175932-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::331208789346:role/cool-home-prod-20190917175932-authRole",
-            "Region": "eu-central-1",
-            "DeploymentBucketName": "cool-home-prod-20190917175932-deployment",
-            "UnauthRoleName": "cool-home-prod-20190917175932-unauthRole",
-            "StackName": "cool-home-prod-20190917175932",
-            "StackId": "arn:aws:cloudformation:eu-central-1:331208789346:stack/cool-home-prod-20190917175932/2340ff50-d964-11e9-8f46-0649507b8a60"
-        },
-        "categories": {
-            "auth": {
-                "coolhomedb7dd735": {
-                    "hostedUIProviderCreds": "[]"
-                }
-            },
-            "function": {
-                "signup": {}
-            }
-        }
-    },
     "dev": {
         "awscloudformation": {
             "AuthRoleName": "cool-home-dev-20191007155131-authRole",
@@ -31,6 +9,29 @@
             "UnauthRoleName": "cool-home-dev-20191007155131-unauthRole",
             "StackName": "cool-home-dev-20191007155131",
             "StackId": "arn:aws:cloudformation:eu-central-1:331208789346:stack/cool-home-dev-20191007155131/91bd98d0-e909-11e9-b693-0ac03387fd40"
+        },
+        "categories": {
+            "auth": {
+                "coolhomedb7dd735": {
+                    "hostedUIProviderCreds": "[]"
+                }
+            },
+            "function": {
+                "signup": {},
+                "graphql": {}
+            }
+        }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "cool-home-prod-20191008153925-authRole",
+            "UnauthRoleArn": "arn:aws:iam::331208789346:role/cool-home-prod-20191008153925-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::331208789346:role/cool-home-prod-20191008153925-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "cool-home-prod-20191008153925-deployment",
+            "UnauthRoleName": "cool-home-prod-20191008153925-unauthRole",
+            "StackName": "cool-home-prod-20191008153925",
+            "StackId": "arn:aws:cloudformation:eu-central-1:331208789346:stack/cool-home-prod-20191008153925/0ace26f0-e9d1-11e9-9ecd-0269f2d0f086"
         },
         "categories": {
             "auth": {

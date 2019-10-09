@@ -201,30 +201,30 @@ Resources:
         SnsCallerArn: !GetAtt SNSRole.Arn
         ExternalId: coolhodb7dd735_role_external_id
 
-  UserPoolPreSignupLambdaInvokePermission:
-    Type: "AWS::Lambda::Permission"
-    DependsOn: UserPool
-    Properties:
-      Action: "lambda:invokeFunction"
-      Principal: "cognito-idp.amazonaws.com"
-      FunctionName:
-        Fn::Join:
-          [
-            "",
-            [
-              "arn:aws:lambda",
-              ":",
-              Ref: "AWS::Region",
-              ":",
-              Ref: "AWS::AccountId",
-              ":",
-              "function:",
-              !Ref triggerLambdaName,
-              "-",
-              !Ref env,
-            ],
-          ]
-      SourceArn: !GetAtt UserPool.Arn
+  # UserPoolPreSignupLambdaInvokePermission:
+  #   Type: "AWS::Lambda::Permission"
+  #   DependsOn: UserPool
+  #   Properties:
+  #     Action: "lambda:invokeFunction"
+  #     Principal: "cognito-idp.amazonaws.com"
+  #     FunctionName:
+  #       Fn::Join:
+  #         [
+  #           "",
+  #           [
+  #             "arn:aws:lambda",
+  #             ":",
+  #             Ref: "AWS::Region",
+  #             ":",
+  #             Ref: "AWS::AccountId",
+  #             ":",
+  #             "function:",
+  #             !Ref triggerLambdaName,
+  #             "-",
+  #             !Ref env,
+  #           ],
+  #         ]
+  #     SourceArn: !GetAtt UserPool.Arn
 
   # Updating lambda role with permissions to Cognito
 
