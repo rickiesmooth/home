@@ -7,15 +7,14 @@ import { ThingsProvider, ThingsContext } from "./store/things";
 import Amplify, { Auth } from "aws-amplify";
 import gql from "graphql-tag";
 import { getUser } from "./graphql/queries";
+import awsconfig from "./aws-exports";
+import { GetUserQueryVariables, GetUserQuery } from "./graphql/API";
 
 const USER = gql`
   ${getUser}
 `;
 
 Amplify.configure(awsconfig);
-
-import awsconfig from "./aws-exports";
-import { GetUserQueryVariables, GetUserQuery } from "./graphql/API";
 
 export const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,

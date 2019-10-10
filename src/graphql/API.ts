@@ -337,6 +337,10 @@ export type ListUsersQuery = {
   } | null,
 };
 
+export type OnCreateGroupSubscriptionVariables = {
+  groupAuthorId: string,
+};
+
 export type OnCreateGroupSubscription = {
   onCreateGroup:  {
     __typename: "Group",
@@ -356,6 +360,10 @@ export type OnCreateGroupSubscription = {
       updatedAt: string | null,
     } | null,
   } | null,
+};
+
+export type OnUpdateGroupSubscriptionVariables = {
+  groupAuthorId: string,
 };
 
 export type OnUpdateGroupSubscription = {
@@ -379,6 +387,10 @@ export type OnUpdateGroupSubscription = {
   } | null,
 };
 
+export type OnDeleteGroupSubscriptionVariables = {
+  groupAuthorId: string,
+};
+
 export type OnDeleteGroupSubscription = {
   onDeleteGroup:  {
     __typename: "Group",
@@ -398,6 +410,10 @@ export type OnDeleteGroupSubscription = {
       updatedAt: string | null,
     } | null,
   } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  id: string,
 };
 
 export type OnUpdateUserSubscription = {
@@ -421,6 +437,10 @@ export type OnUpdateUserSubscription = {
   } | null,
 };
 
+export type OnDeleteUserSubscriptionVariables = {
+  id: string,
+};
+
 export type OnDeleteUserSubscription = {
   onDeleteUser:  {
     __typename: "User",
@@ -440,6 +460,10 @@ export type OnDeleteUserSubscription = {
     createdAt: string | null,
     updatedAt: string | null,
   } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  id: string,
 };
 
 export type OnCreateUserSubscription = {

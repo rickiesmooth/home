@@ -8,10 +8,6 @@ Parameters:
   unauthRoleArn:
     Type: String
 
-  triggerLambdaName:
-    Type: String
-    Default: signup
-
   identityPoolName:
     Type: String
 
@@ -84,6 +80,9 @@ Parameters:
   useDefault:
     Type: String
 
+  usernameAttributes:
+    Type: CommaDelimitedList
+
   triggers:
     Type: String
 
@@ -92,6 +91,12 @@ Parameters:
 
   permissions:
     Type: CommaDelimitedList
+
+  dependsOn:
+    Type: CommaDelimitedList
+
+  hostedUIProviderCreds:
+    Type: String
 
   thirdPartyAuth:
     Type: String
@@ -111,11 +116,12 @@ Parameters:
   hostedUIProviderMeta:
     Type: String
 
-  hostedUIProviderCreds:
-    Type: String
-
   oAuthMetadata:
     Type: String
+
+  triggerLambdaName:
+    Type: String
+    Default: signup
 
 Conditions:
   ShouldNotCreateEnvResources: !Equals [!Ref env, NONE]
@@ -129,8 +135,8 @@ Resources:
       RoleName:
         !If [
           ShouldNotCreateEnvResources,
-          "coolhodb7dd735_sns-role",
-          !Join ["", ["coolhodb7dd735_sns-role", "-", !Ref env]],
+          "coolho08ffbefa_sns-role",
+          !Join ["", ["coolho08ffbefa_sns-role", "-", !Ref env]],
         ]
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
@@ -143,9 +149,9 @@ Resources:
               - "sts:AssumeRole"
             Condition:
               StringEquals:
-                sts:ExternalId: coolhodb7dd735_role_external_id
+                sts:ExternalId: coolho08ffbefa_role_external_id
       Policies:
-        - PolicyName: coolhodb7dd735-sns-policy
+        - PolicyName: coolho08ffbefa-sns-policy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -171,7 +177,6 @@ Resources:
         - Name: email
           Required: true
           Mutable: true
-
       LambdaConfig:
         PostConfirmation: !Sub
           - arn:aws:lambda:${region}:${account}:function:${name}-${env}
@@ -181,7 +186,6 @@ Resources:
               env: !Ref env,
               name: !Ref triggerLambdaName,
             }
-
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
 
       EmailVerificationMessage: !Ref emailVerificationMessage
@@ -195,36 +199,13 @@ Resources:
           RequireSymbols: false
           RequireUppercase: false
 
+      UsernameAttributes: !Ref usernameAttributes
+
       MfaConfiguration: !Ref mfaConfiguration
       SmsVerificationMessage: !Ref smsVerificationMessage
       SmsConfiguration:
         SnsCallerArn: !GetAtt SNSRole.Arn
-        ExternalId: coolhodb7dd735_role_external_id
-
-  # UserPoolPreSignupLambdaInvokePermission:
-  #   Type: "AWS::Lambda::Permission"
-  #   DependsOn: UserPool
-  #   Properties:
-  #     Action: "lambda:invokeFunction"
-  #     Principal: "cognito-idp.amazonaws.com"
-  #     FunctionName:
-  #       Fn::Join:
-  #         [
-  #           "",
-  #           [
-  #             "arn:aws:lambda",
-  #             ":",
-  #             Ref: "AWS::Region",
-  #             ":",
-  #             Ref: "AWS::AccountId",
-  #             ":",
-  #             "function:",
-  #             !Ref triggerLambdaName,
-  #             "-",
-  #             !Ref env,
-  #           ],
-  #         ]
-  #     SourceArn: !GetAtt UserPool.Arn
+        ExternalId: coolho08ffbefa_role_external_id
 
   # Updating lambda role with permissions to Cognito
 
@@ -233,7 +214,7 @@ Resources:
     # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: coolhodb7dd735_app_clientWeb
+      ClientName: coolho08ffbefa_app_clientWeb
 
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -243,7 +224,7 @@ Resources:
     # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: coolhodb7dd735_app_client
+      ClientName: coolho08ffbefa_app_client
 
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
@@ -313,7 +294,7 @@ Resources:
     # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: "AWS::IAM::Policy"
     Properties:
-      PolicyName: coolhodb7dd735_userpoolclient_lambda_iam_policy
+      PolicyName: coolho08ffbefa_userpoolclient_lambda_iam_policy
       Roles:
         - !If [
             ShouldNotCreateEnvResources,
@@ -334,7 +315,7 @@ Resources:
     # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: "AWS::IAM::Policy"
     Properties:
-      PolicyName: coolhodb7dd735_userpoolclient_lambda_log_policy
+      PolicyName: coolho08ffbefa_userpoolclient_lambda_log_policy
       Roles:
         - !If [
             ShouldNotCreateEnvResources,
@@ -765,10 +746,10 @@ Resources:
       IdentityPoolName:
         !If [
           ShouldNotCreateEnvResources,
-          "coolhomedb7dd735_identitypool_db7dd735",
+          "coolhome08ffbefa_identitypool_08ffbefa",
           !Join [
             "",
-            ["coolhomedb7dd735_identitypool_db7dd735", "__", !Ref env],
+            ["coolhome08ffbefa_identitypool_08ffbefa", "__", !Ref env],
           ],
         ]
 

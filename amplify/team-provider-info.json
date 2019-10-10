@@ -34,14 +34,14 @@
             "StackId": "arn:aws:cloudformation:eu-central-1:331208789346:stack/cool-home-prod-20191008153925/0ace26f0-e9d1-11e9-9ecd-0269f2d0f086"
         },
         "categories": {
-            "auth": {
-                "coolhomedb7dd735": {
-                    "hostedUIProviderCreds": "[]"
-                }
-            },
             "function": {
                 "signup": {},
                 "graphql": {}
+            },
+            "auth": {
+                "coolhome08ffbefa": {
+                    "hostedUIProviderCreds": "[]"
+                }
             }
         }
     }

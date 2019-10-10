@@ -17,7 +17,7 @@ const SignInWithFacebook: React.FC = () => {
   }
   return (
     <View style={styles.loginContainer}>
-      <Button onPress={signIn} title="Sign in with Facebook" />
+      <Button onPress={signIn} title="Signin or signup" />
     </View>
   );
 };
