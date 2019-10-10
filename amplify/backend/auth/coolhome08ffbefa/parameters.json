@@ -60,5 +60,5 @@
     "hostedUIDomainName": "coolhome",
     "authProvidersUserPool": [],
     "hostedUIProviderMeta": "[]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:19006/\",\"http://localhost:19006/Home/\"],\"LogoutURLs\":[\"http://localhost:19006/\",\"http://localhost:19006/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:19006/\",\"http://localhost:19006/Home/\",\"https://home.rs1.dev/\"],\"LogoutURLs\":[\"http://localhost:19006/\",\"http://localhost:19006/\"]}"
 }
