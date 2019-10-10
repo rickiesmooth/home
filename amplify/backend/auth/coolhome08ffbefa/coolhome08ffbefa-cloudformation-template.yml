@@ -95,9 +95,6 @@ Parameters:
   dependsOn:
     Type: CommaDelimitedList
 
-  hostedUIProviderCreds:
-    Type: String
-
   thirdPartyAuth:
     Type: String
 
@@ -114,6 +111,9 @@ Parameters:
     Type: CommaDelimitedList
 
   hostedUIProviderMeta:
+    Type: String
+
+  hostedUIProviderCreds:
     Type: String
 
   oAuthMetadata:
@@ -177,15 +177,7 @@ Resources:
         - Name: email
           Required: true
           Mutable: true
-      LambdaConfig:
-        PostConfirmation: !Sub
-          - arn:aws:lambda:${region}:${account}:function:${name}-${env}
-          - {
-              region: !Ref "AWS::Region",
-              account: !Ref "AWS::AccountId",
-              env: !Ref env,
-              name: !Ref triggerLambdaName,
-            }
+
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
 
       EmailVerificationMessage: !Ref emailVerificationMessage
