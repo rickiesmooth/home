@@ -1,13 +1,17 @@
 import React from "react";
-import { ActivityIndicator, StatusBar, View, AsyncStorage } from "react-native";
+import { ActivityIndicator, StatusBar, View } from "react-native";
 import { UserContext } from "../store/user";
 
 export const AuthLoadingScreen: React.FC<any> = ({ navigation }) => {
-  const {
-    state: { id }
-  } = React.useContext(UserContext);
+  const { state } = React.useContext(UserContext);
 
-  navigation.navigate(Boolean(id) ? "App" : "Auth");
+  React.useEffect(() => {
+    if (state.loggedIn === false) {
+      navigation.navigate("Auth");
+    } else if (state.loggedIn === true) {
+      navigation.navigate("App");
+    }
+  }, [state.loggedIn]);
 
   return (
     <View>

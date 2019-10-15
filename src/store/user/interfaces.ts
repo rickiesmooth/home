@@ -6,7 +6,7 @@ export interface UserContextInterface {
   actions: UserActions;
 }
 export interface State extends User {
-  loggedIn: boolean;
+  loggedIn: boolean | null;
 }
 
 export enum ACTION_TYPES {

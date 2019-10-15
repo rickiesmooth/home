@@ -2,7 +2,7 @@ import { GetUserQuery } from "../../graphql/API";
 
 export class User {
   id: string;
-  hubToken?: string;
+  hubToken: string;
   username: string;
   constructor(user: GetUserQuery["getUser"]) {
     this.id = user!.id;

@@ -1,7 +1,7 @@
 import { State, Action, ACTION_TYPES } from "./interfaces";
 
 export const initialState: State = {
-  loggedIn: false,
+  loggedIn: null,
   id: "",
   username: "",
   hubToken: ""
@@ -10,10 +10,12 @@ export const initialState: State = {
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ACTION_TYPES.USER_LOGIN:
+      console.log("updating", state, action.data);
       return {
         ...state,
         loggedIn: !!action.data,
-        ...action.data
+        id: action.data.id,
+        hubToken: action.data.hubToken
       };
 
     default:

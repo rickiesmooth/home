@@ -1,10 +1,11 @@
 import React from "react";
+import gql from "graphql-tag";
 import { Text, View, StyleSheet, TextInput, Button } from "react-native";
 import { Container } from "../components/Elements/Container/Container";
 import { useMutation } from "@apollo/react-hooks";
 import { UpdateUserMutationVariables } from "../graphql/API";
-import gql from "graphql-tag";
 import { updateUser } from "../graphql/mutations";
+import { UserContext } from "../store/user";
 
 const UPDATE_USER = gql`
   ${updateUser}
@@ -19,8 +20,14 @@ export const Settings = () => {
     "Experiments",
     "Developer"
   ];
+  const { state } = React.useContext(UserContext);
   const [hubToken, handleChangeText] = React.useState("");
   const [updateUser] = useMutation<UpdateUserMutationVariables>(UPDATE_USER);
+  const { id } = state;
+
+  React.useEffect(() => {
+    handleChangeText(state.hubToken);
+  }, [state.hubToken]);
 
   return (
     <Container>
@@ -34,14 +41,7 @@ export const Settings = () => {
           <Button
             title="submit"
             onPress={() =>
-              updateUser({
-                variables: {
-                  input: {
-                    id: "b7cbcf26-96f2-416f-9bda-e29c800f7636",
-                    hubToken
-                  }
-                }
-              })
+              updateUser({ variables: { input: { id, hubToken } } })
             }
           />
         </View>

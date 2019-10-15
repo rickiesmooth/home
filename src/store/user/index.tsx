@@ -8,9 +8,7 @@ const UserContext = React.createContext<UserContextInterface>(
 );
 
 const UserProvider: React.FC = ({ children }) => {
-  const memoizedReducer = React.useCallback(reducer, []);
-  const [state, dispatch] = React.useReducer(memoizedReducer, initialState);
-
+  const [state, dispatch] = React.useReducer(reducer, initialState);
   const actions = useActions(state, dispatch);
 
   return (

@@ -48,12 +48,10 @@ const Root = () => {
           }
         })
       )
-      .then(res => {
-        console.log(res.data.getUser);
-        return login(res.data.getUser);
-      })
+      .then(res => login(res.data.getUser))
       .catch(e => console.log("Not signed in", e));
   }, []);
+
   // initialize things when we have hubToken from loggedin user
   const initialize = React.useCallback(() => {
     hubToken && initThings(hubToken);
