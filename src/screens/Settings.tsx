@@ -1,19 +1,13 @@
 import React from "react";
 import gql from "graphql-tag";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  Button,
-  TouchableOpacity
-} from "react-native";
+import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
 import { Container } from "../components/Elements/Container/Container";
 import { useMutation } from "@apollo/react-hooks";
 import { UpdateUserMutationVariables } from "../graphql/API";
 import { updateUser } from "../graphql/mutations";
 import { UserContext } from "../store/user";
 import Auth from "@aws-amplify/auth";
+import { Input } from "../components/Elements/Input/Input";
 
 const UPDATE_USER = gql`
   ${updateUser}
@@ -41,7 +35,7 @@ export const Settings = () => {
     <Container>
       <View>
         <View>
-          <TextInput
+          <Input
             value={hubToken}
             placeholder="token"
             onChangeText={handleChangeText}

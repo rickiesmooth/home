@@ -42,15 +42,6 @@ export default function BottomTabsScreen() {
       >
         {props => <HomeScreen {...props} options={{ headerMode: "none" }} />}
       </BottomTabs.Screen>
-      {/* <BottomTabs.Screen
-        name="home"
-        component={HomeScreen}
-        options={{
-          title: "Home",
-          tabBarIcon: getTabBarIcon("home"),
-          tabBarButtonComponent: TouchableOpacity
-        }}
-      /> */}
       <BottomTabs.Screen
         name="devices"
         component={Devices}

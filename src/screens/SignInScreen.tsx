@@ -5,17 +5,16 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
   ActivityIndicator
 } from "react-native";
 import Auth from "@aws-amplify/auth";
-import { Hub } from "@aws-amplify/core";
 import {
   createStackNavigator,
   StackNavigationProp
 } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/core";
 import { ISignUpResult } from "amazon-cognito-identity-js";
+import { Input } from "../components/Elements/Input/Input";
 
 type LoginParams = {
   signin: undefined;
@@ -60,15 +59,10 @@ const SignIn = ({ navigation, route: { name } }: Props) => {
           <Text style={[styles.text, { color: "white" }]}>{error}</Text>
         </View>
       ) : null}
-      <TextInput
-        placeholder="Username"
-        style={styles.input}
-        onChangeText={setUsername}
-      />
-      <TextInput
+      <Input placeholder="Username" onChangeText={setUsername} />
+      <Input
         placeholder="Password"
         secureTextEntry
-        style={styles.input}
         onChangeText={setPassword}
       />
       <Button onPress={handleSubmit} title={"Sign In"} />
@@ -111,9 +105,8 @@ const SignUp = ({ navigation }: Props) => {
         <Text
           style={styles.text}
         >{`we've your confirmation code to ${signupResult.codeDeliveryDetails.Destination}`}</Text>
-        <TextInput
+        <Input
           key="code"
-          style={styles.input}
           placeholder="enter code here"
           onChangeText={setCode}
         />
@@ -129,15 +122,10 @@ const SignUp = ({ navigation }: Props) => {
           <Text style={[styles.text, { color: "white" }]}>{error}</Text>
         </View>
       ) : null}
-      <TextInput
-        placeholder="Username"
-        style={styles.input}
-        onChangeText={setUsername}
-      />
-      <TextInput
+      <Input placeholder="Username" onChangeText={setUsername} />
+      <Input
         placeholder="Password"
         secureTextEntry
-        style={styles.input}
         onChangeText={setPassword}
       />
       <Button onPress={handleSubmit} title={"Sign up"} />
@@ -174,14 +162,6 @@ const styles = StyleSheet.create({
     margin: "auto",
     maxWidth: 500,
     width: "100%"
-  },
-  input: {
-    marginVertical: 8,
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 3,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(0, 0, 0, 0.08)"
   },
   button: {
     margin: 8
