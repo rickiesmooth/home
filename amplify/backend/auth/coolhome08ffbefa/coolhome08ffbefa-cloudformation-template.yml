@@ -194,6 +194,14 @@ Resources:
       SmsConfiguration:
         SnsCallerArn: !GetAtt SNSRole.Arn
         ExternalId: coolho08ffbefa_role_external_id
+      LambdaConfig:
+        PostConfirmation: !Sub
+          - arn:aws:lambda:${region}:${account}:function:signup-${env}
+          - {
+              region: !Ref "AWS::Region",
+              account: !Ref "AWS::AccountId",
+              env: !Ref env,
+            }
 
   # Updating lambda role with permissions to Cognito
 
