@@ -44,7 +44,7 @@ export const Group: React.FC<Props> = ({ devices, name, id }) => {
         obj => devices.map(id => obj[id])
       )();
     }
-  }, [loading]);
+  }, [loading, things]);
 
   const update = (val: Partial<ThingModelValues>) =>
     groupThings!.forEach(({ updateThing }) => updateThing(val));
