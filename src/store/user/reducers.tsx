@@ -10,7 +10,6 @@ export const initialState: State = {
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ACTION_TYPES.USER_LOGIN:
-      console.log("updating", state, action.data);
       return {
         ...state,
         loggedIn: !!action.data,

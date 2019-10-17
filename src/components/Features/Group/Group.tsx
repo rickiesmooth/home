@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, ActivityIndicator } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import pipe from "ramda/es/pipe";
@@ -9,7 +9,7 @@ import { ThingsContext } from "../../../store/things";
 import { DeleteGroupMutationVariables } from "../../../graphql/API";
 import { deleteGroup } from "../../../graphql/mutations";
 import { group } from "../../../utils/group";
-import { ThingModelValues } from "../../../store/things/interfaces";
+import { ThingModelValues, ThingModel } from "../../../store/things/interfaces";
 import { Controls } from "../Controls/Controls";
 import { Card } from "../../Elements/Card/Card";
 
@@ -29,31 +29,44 @@ export const Group: React.FC<Props> = ({ devices, name, id }) => {
   } = React.useContext(ThingsContext);
   const [deleteGroup] = useMutation<DeleteGroupMutationVariables>(
     DELETE_GROUP,
-    { variables: { input: { id } } }
+    {
+      variables: { input: { id } },
+      refetchQueries: ["GetUser"]
+    }
   );
 
-  const update = (val: Partial<ThingModelValues>) =>
-    groupThings.forEach(({ updateThing }) => updateThing(val));
-
   if (!devices || !devices.length) return <Text>no devices</Text>;
-  if (loading) return <Text>Loading</Text>;
 
-  const groupThings = pipe(
-    () => indexBy(prop("id"), things),
-    obj => devices.map(id => obj[id])
-  )();
+  const groupThings = React.useMemo(() => {
+    if (!loading) {
+      return pipe(
+        () => indexBy(prop("id"), things),
+        obj => devices.map(id => obj[id])
+      )();
+    }
+  }, [loading]);
+
+  const update = (val: Partial<ThingModelValues>) =>
+    groupThings!.forEach(({ updateThing }) => updateThing(val));
 
   return (
     <Card
       title={name}
       onDelete={deleteGroup}
-      subTitle={groupThings.map(({ title }) => title).join(", ")}
+      subTitle={groupThings && groupThings.map(({ title }) => title).join(", ")}
     >
-      <Controls
-        values={group(groupThings, "values")}
-        updateThing={update}
-        properties={group(groupThings, "properties")}
-      />
+      {groupThings ? (
+        <Controls
+          values={group<ThingModel, "values">(groupThings, "values")}
+          updateThing={update}
+          properties={group<ThingModel, "properties">(
+            groupThings,
+            "properties"
+          )}
+        />
+      ) : (
+        <ActivityIndicator />
+      )}
     </Card>
   );
 };

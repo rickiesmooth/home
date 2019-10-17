@@ -19,12 +19,3 @@ export const Devices = () => {
     </Container>
   );
 };
-
-export class DevicesScreen extends React.Component {
-  static navigationOptions = {
-    title: "Devices"
-  };
-  render() {
-    return <Devices />;
-  }
-}

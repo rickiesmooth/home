@@ -1,45 +1,202 @@
 import React from "react";
-import { View, Button, StyleSheet } from "react-native";
-import { Auth } from "aws-amplify";
-import { Redirect } from "../navigation/Redirect";
-// To federated sign in from Facebook
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator
+} from "react-native";
+import Auth from "@aws-amplify/auth";
+import { Hub } from "@aws-amplify/core";
+import {
+  createStackNavigator,
+  StackNavigationProp
+} from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/core";
+import { ISignUpResult } from "amazon-cognito-identity-js";
 
-const SignInWithFacebook: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+type LoginParams = {
+  signin: undefined;
+  signup: undefined;
+};
+type SimpleStackNavigation = StackNavigationProp<LoginParams>;
+type Props = {
+  navigation: SimpleStackNavigation;
+  route: RouteProp<LoginParams, keyof LoginParams>;
+};
 
-  const signIn = () => Auth.federatedSignIn();
+const LoginStack = createStackNavigator<LoginParams>();
 
-  if (isLoggedIn) {
-    // AsyncStorage.setItem("userToken", data!.jwt);
-    // actions.login(data!.jwt);
+const SignIn = ({ navigation, route: { name } }: Props) => {
+  const [password, setPassword] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
-    return <Redirect to="App" />;
+  function handleSubmit() {
+    setIsLoading(true);
+    Auth.signIn({ username, password }).catch(err => {
+      setIsLoading(false);
+      setError(err.message);
+    });
   }
+
+  const isFirst = navigation.isFirstRouteInParent();
+
+  if (isLoading) {
+    return (
+      <View style={styles.content}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.loginContainer}>
-      <Button onPress={signIn} title="Signin or signup" />
+    <View style={styles.content}>
+      {error ? (
+        <View style={styles.error}>
+          <Text style={[styles.text, { color: "white" }]}>{error}</Text>
+        </View>
+      ) : null}
+      <TextInput
+        placeholder="Username"
+        style={styles.input}
+        onChangeText={setUsername}
+      />
+      <TextInput
+        placeholder="Password"
+        secureTextEntry
+        style={styles.input}
+        onChangeText={setPassword}
+      />
+      <Button onPress={handleSubmit} title={"Sign In"} />
+      <TouchableOpacity
+        style={styles.otherOption}
+        onPress={() =>
+          isFirst ? navigation.navigate("signup") : navigation.goBack()
+        }
+      >
+        <Text style={styles.text}>{"Or sign up here"}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
+const SignUp = ({ navigation }: Props) => {
+  const [password, setPassword] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [signupResult, setSignupResult] = React.useState<ISignUpResult>();
+  const [code, setCode] = React.useState<string>();
+
+  function handleConfirm() {
+    if (code) {
+      Auth.confirmSignUp(username, code)
+        .then(() => Auth.signIn(username, password))
+        .catch(err => console.log(err));
+    }
+  }
+
+  function handleSubmit() {
+    Auth.signUp({ username, password })
+      .then(res => setSignupResult(res))
+      .catch(e => setError(e.message));
+  }
+
+  if (signupResult) {
+    return (
+      <View style={styles.content}>
+        <Text
+          style={styles.text}
+        >{`we've your confirmation code to ${signupResult.codeDeliveryDetails.Destination}`}</Text>
+        <TextInput
+          key="code"
+          style={styles.input}
+          placeholder="enter code here"
+          onChangeText={setCode}
+        />
+        <Button onPress={handleConfirm} title={"confirm code"} />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.content}>
+      {error ? (
+        <View style={styles.error}>
+          <Text style={[styles.text, { color: "white" }]}>{error}</Text>
+        </View>
+      ) : null}
+      <TextInput
+        placeholder="Username"
+        style={styles.input}
+        onChangeText={setUsername}
+      />
+      <TextInput
+        placeholder="Password"
+        secureTextEntry
+        style={styles.input}
+        onChangeText={setPassword}
+      />
+      <Button onPress={handleSubmit} title={"Sign up"} />
+      <TouchableOpacity
+        style={styles.otherOption}
+        onPress={() => navigation.navigate("signup")}
+      >
+        <Text style={styles.text}>{"Or sign up here"}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export const SignInNavigator = () => (
+  <LoginStack.Navigator initialRouteName="signin">
+    <LoginStack.Screen
+      name={"signin"}
+      options={{ title: "Sign In" }}
+      component={SignIn}
+    />
+    <LoginStack.Screen
+      name={"signup"}
+      options={{ title: "Sign Up" }}
+      component={SignUp}
+    />
+  </LoginStack.Navigator>
+);
+
 const styles = StyleSheet.create({
-  loginContainer: {
-    maxWidth: 350,
-    width: "100%",
-    marginHorizontal: "auto",
-    height: "100vh"
+  content: {
+    flex: 1,
+    padding: 16,
+    justifyContent: "center",
+    margin: "auto",
+    maxWidth: 500,
+    width: "100%"
   },
   input: {
-    marginTop: "auto",
-    paddingVertical: 16
+    marginVertical: 8,
+    padding: 10,
+    backgroundColor: "white",
+    borderRadius: 3,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(0, 0, 0, 0.08)"
+  },
+  button: {
+    margin: 8
+  },
+  error: {
+    padding: 8,
+    backgroundColor: "#B00020"
+  },
+  text: {
+    textAlign: "center",
+    margin: 16
+  },
+  otherOption: {
+    marginTop: 16,
+    borderColor: "#DDD",
+    borderTopWidth: StyleSheet.hairlineWidth
   }
 });
-
-export class SignInScreen extends React.Component {
-  static navigationOptions = {
-    title: "Sign in"
-  };
-  render() {
-    return <SignInWithFacebook />;
-  }
-}

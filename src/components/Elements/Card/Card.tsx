@@ -10,7 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   title: string;
-  onDelete: () => void;
+  onDelete?: () => void;
   subTitle?: string;
 } & ViewProps;
 
@@ -20,7 +20,7 @@ export const Card: React.FC<Props> = ({
   onDelete,
   subTitle
 }) => (
-  <View style={styles.thing}>
+  <View style={styles.card}>
     <View style={styles.header}>
       <View style={styles.titleRow}>
         <Text style={styles.title}>{title.toLowerCase()}</Text>
@@ -39,10 +39,11 @@ export const Card: React.FC<Props> = ({
 );
 
 const styles = StyleSheet.create({
-  thing: {
-    borderColor: "#EEE",
+  card: {
+    backgroundColor: "#FFF",
+    borderColor: "#DDD",
     borderRadius: 8,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
     padding: 24,
     maxWidth: 400,
     width: "100%",
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 16,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: "#EEE",
     paddingBottom: 16
   },

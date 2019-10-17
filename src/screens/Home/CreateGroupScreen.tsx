@@ -17,18 +17,20 @@ import { Controls } from "../../components/Features/Controls/Controls";
 import { group } from "../../utils/group";
 import { Container } from "../../components/Elements/Container/Container";
 import { UserContext } from "../../store/user";
+import { useNavigation } from "@react-navigation/core";
 
 const ADD_GROUP = gql`
   ${createGroup}
 `;
 
-const CreateGroup = () => {
+export const CreateGroupScreen = () => {
   const {
     state: { things, loading, error }
   } = useContext(ThingsContext);
   const {
     state: { id }
   } = useContext(UserContext);
+  const navigation = useNavigation();
   const [groupName, setGroupName] = React.useState("");
   const [selected, setSelected] = React.useState<ThingModel[]>([]);
   const [addGroup] = useMutation<CreateGroupMutationVariables>(ADD_GROUP, {
@@ -38,7 +40,8 @@ const CreateGroup = () => {
         devices: selected.map(({ id }) => id),
         groupAuthorId: id
       }
-    }
+    },
+    refetchQueries: ["GetUser"]
   });
 
   if (loading) {
@@ -95,13 +98,18 @@ const CreateGroup = () => {
           );
         })}
         <Text>groupProperties</Text>
-        {Object.values(group(selected, "properties")).map(props => (
+        {Object.values(
+          group<ThingModel, "properties">(selected, "properties")
+        ).map(props => (
           <Text key={props!.link}>{props!.title}</Text>
         ))}
         <Button
           title="update"
           disabled={!groupName || Object.entries(selected).length === 0}
-          onPress={() => addGroup()}
+          onPress={() => {
+            addGroup();
+            navigation.goBack();
+          }}
         />
       </View>
     </Container>
@@ -129,12 +137,3 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   }
 });
-
-export class CreateGroupScreen extends React.Component {
-  static navigationOptions = {
-    title: "Create Group"
-  };
-  render() {
-    return <CreateGroup />;
-  }
-}

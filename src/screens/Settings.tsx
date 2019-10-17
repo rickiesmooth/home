@@ -1,11 +1,19 @@
 import React from "react";
 import gql from "graphql-tag";
-import { Text, View, StyleSheet, TextInput, Button } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  TouchableOpacity
+} from "react-native";
 import { Container } from "../components/Elements/Container/Container";
 import { useMutation } from "@apollo/react-hooks";
 import { UpdateUserMutationVariables } from "../graphql/API";
 import { updateUser } from "../graphql/mutations";
 import { UserContext } from "../store/user";
+import Auth from "@aws-amplify/auth";
 
 const UPDATE_USER = gql`
   ${updateUser}
@@ -50,19 +58,13 @@ export const Settings = () => {
             {setting}
           </Text>
         ))}
+        <TouchableOpacity onPress={() => Auth.signOut()}>
+          <Text style={styles.setting}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </Container>
   );
 };
-
-export class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: "Settings"
-  };
-  render() {
-    return <Settings />;
-  }
-}
 
 const styles = StyleSheet.create({
   setting: {

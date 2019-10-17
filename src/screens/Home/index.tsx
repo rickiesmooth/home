@@ -1,34 +1,38 @@
 import React from "react";
-import { createStackNavigator } from "react-navigation-stack";
-import { HomeScreen } from "./HomeScreen";
-import { TabBarIcon } from "../../components/Elements/TabBarIcon/TabBarIcon";
-import { Platform } from "react-native";
+import { ParamListBase } from "@react-navigation/core";
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+  StackNavigationProp
+} from "@react-navigation/stack";
 import { CreateGroupScreen } from "./CreateGroupScreen";
+import { Home } from "./Home";
 
-const config = Platform.select({
-  web: { headerMode: "screen" },
-  default: {}
-});
-
-export const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen,
-    CreateGroup: CreateGroupScreen
-  },
-  config
-);
-
-HomeStack.navigationOptions = {
-  tabBarLabel: "Home",
-  tabBarIcon: (focused: boolean) => (
-    <TabBarIcon
-      name={
-        Platform.OS === "ios"
-          ? `ios-information-circle${focused ? "" : "-outline"}`
-          : `md-information-circle${focused ? "" : "-outline"}`
-      }
-    />
-  )
+type HomeStackParams = {
+  home: undefined;
+  createGroup: undefined;
 };
 
-HomeStack.path = "";
+type Props = {
+  options?: StackNavigationOptions;
+  navigation: StackNavigationProp<ParamListBase>;
+};
+
+const HomeStack = createStackNavigator<HomeStackParams>();
+
+export const HomeScreen: React.FC<Props> = ({ options }) => {
+  return (
+    <HomeStack.Navigator {...options}>
+      <HomeStack.Screen
+        name="home"
+        component={Home}
+        options={{ title: "home" }}
+      />
+      <HomeStack.Screen
+        name="createGroup"
+        component={CreateGroupScreen}
+        options={{ title: "Create Group" }}
+      />
+    </HomeStack.Navigator>
+  );
+};

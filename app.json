@@ -3,14 +3,20 @@
     "name": "Cool Home",
     "slug": "cool-home",
     "privacy": "public",
-    "sdkVersion": "34.0.0",
-    "platforms": ["android", "ios", "web"],
+    "sdkVersion": "35.0.0",
+    "platforms": [
+      "android",
+      "ios",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     }
