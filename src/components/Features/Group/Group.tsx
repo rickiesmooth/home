@@ -38,13 +38,13 @@ export const Group: React.FC<Props> = ({ devices, name, id }) => {
   if (!devices || !devices.length) return <Text>no devices</Text>;
 
   const groupThings = React.useMemo(() => {
-    if (!loading) {
+    if (things.length) {
       return pipe(
         () => indexBy(prop("id"), things),
         obj => devices.map(id => obj[id])
       )();
     }
-  }, [loading, things]);
+  }, [things]);
 
   const update = (val: Partial<ThingModelValues>) =>
     groupThings!.forEach(({ updateThing }) => updateThing(val));

@@ -1,6 +1,6 @@
 projects:
   graphql:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/graphql/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

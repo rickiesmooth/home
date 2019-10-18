@@ -1,12 +1,5 @@
 import React, { useContext } from "react";
-import {
-  Text,
-  Button,
-  TextInput,
-  CheckBox,
-  View,
-  StyleSheet
-} from "react-native";
+import { Text, Button, CheckBox, View, StyleSheet } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { CreateGroupMutationVariables } from "../../graphql/API";
 import gql from "graphql-tag";
@@ -18,6 +11,7 @@ import { group } from "../../utils/group";
 import { Container } from "../../components/Elements/Container/Container";
 import { UserContext } from "../../store/user";
 import { useNavigation } from "@react-navigation/core";
+import { Input } from "../../components/Elements/Input/Input";
 
 const ADD_GROUP = gql`
   ${createGroup}
@@ -49,17 +43,17 @@ export const CreateGroupScreen = () => {
   }
 
   if (error) {
-    return <Text>error</Text>;
+    return <Text>{error}</Text>;
   }
 
   return (
     <Container>
       <View>
-        <TextInput
+        <Input
           placeholder="Group title..."
           autoFocus
           style={styles.input}
-          onChangeText={text => setGroupName(text)}
+          onChangeText={setGroupName}
         />
         <View style={styles.groupItem}>
           <CheckBox
@@ -73,13 +67,13 @@ export const CreateGroupScreen = () => {
           const hasSelected = !!selected.find(
             selectedThing => selectedThing.id === thing.id
           );
-          const handleValueChange = (value: boolean) => {
+          const handleValueChange = (value: boolean) =>
             setSelected(prev =>
               value
                 ? [...prev, thing]
                 : prev.filter(previousThing => previousThing.id !== thing.id)
             );
-          };
+
           return (
             <View key={thing.id} style={styles.groupItem}>
               <CheckBox
@@ -97,7 +91,7 @@ export const CreateGroupScreen = () => {
             </View>
           );
         })}
-        <Text>groupProperties</Text>
+        {(selected.length && <Text>Group properties</Text>) || null}
         {Object.values(
           group<ThingModel, "properties">(selected, "properties")
         ).map(props => (
@@ -126,11 +120,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 24,
-    marginVertical: 16,
-    borderBottomColor: "#EEE",
-    paddingVertical: 16,
-    paddingHorizontal: 8,
-    borderBottomWidth: 1
+    marginVertical: 16
   },
   groupItem: {
     paddingVertical: 16,

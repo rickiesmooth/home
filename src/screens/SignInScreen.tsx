@@ -59,13 +59,22 @@ const SignIn = ({ navigation, route: { name } }: Props) => {
           <Text style={[styles.text, { color: "white" }]}>{error}</Text>
         </View>
       ) : null}
-      <Input placeholder="Username" onChangeText={setUsername} />
+      <Input
+        data-test="username-input"
+        placeholder="Username"
+        onChangeText={setUsername}
+      />
       <Input
         placeholder="Password"
         secureTextEntry
         onChangeText={setPassword}
+        data-test="sign-in-password-input"
       />
-      <Button onPress={handleSubmit} title={"Sign In"} />
+      <Button
+        data-test="sign-in-sign-in-button"
+        onPress={handleSubmit}
+        title={"Login"}
+      />
       <TouchableOpacity
         style={styles.otherOption}
         onPress={() =>

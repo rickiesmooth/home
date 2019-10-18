@@ -68,6 +68,12 @@ export default function AuthStackScreen({ navigation }: Props) {
           break;
       }
     });
+    Auth.currentSession().then(data => {
+      const isAdmin = data
+        .getAccessToken()
+        .payload["cognito:groups"].some((group: string) => group === "admin");
+      console.log("admin is", isAdmin);
+    });
 
     Auth.currentAuthenticatedUser()
       .then(({ attributes: { sub } }) => handleSignin(sub))

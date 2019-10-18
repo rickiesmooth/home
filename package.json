@@ -52,7 +52,9 @@
     ]
   },
   "devDependencies": {
-    "@types/react-native": "^0.60.21"
+    "@testing-library/cypress": "^5.0.2",
+    "@types/react-native": "^0.60.21",
+    "cypress": "^3.4.1"
   },
   "resolutions": {
     "apollo-client": "2.6.3"
