@@ -89,7 +89,7 @@ export default function AuthStackScreen({ navigation }: Props) {
 
   // initialize things when we have hubToken from loggedin user
   React.useEffect(() => {
-    hubToken && initThings(hubToken);
+    hubToken && initThings();
   }, [loggedIn]);
 
   function handleSignin(id: string) {

@@ -10,9 +10,9 @@ import {
   valueToPercentage,
   percentageToValue
 } from "../../../utils/percentages";
-import pipe from "ramda/es/pipe";
+import { pipe } from "ramda";
 
-interface Props extends ViewProps {
+export interface Props extends ViewProps {
   properties: Partial<ThingModelProperties>;
   values: Partial<ThingModelValues>;
   updateThing: (val: Partial<ThingModelValues>) => void;

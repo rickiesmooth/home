@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 type Props = {
   title: string;
@@ -25,7 +25,7 @@ export const Card: React.FC<Props> = ({
       <View style={styles.titleRow}>
         <Text style={styles.title}>{title.toLowerCase()}</Text>
         <TouchableOpacity style={styles.deleteIcon} onPress={onDelete}>
-          <Ionicons name={"ios-trash"} size={26} />
+          <Text>Delete</Text>
         </TouchableOpacity>
       </View>
       {subTitle && (

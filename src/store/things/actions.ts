@@ -19,14 +19,14 @@ export const useActions = (_state: State, dispatch: React.Dispatch<Action>) => {
         data
       });
     },
-    initThings: async function(token: string) {
+    initThings: async function() {
       const { data, error } = await API.things();
 
       dispatch({
         type: ACTION_TYPES.THINGS_INIT,
         data: {
           ...(data && {
-            things: await data.map(raw => new Thing(raw, updateThing))
+            things: data.map(raw => new Thing(raw, updateThing))
           }),
           ...(error && { error: error.message })
         }

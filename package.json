@@ -23,8 +23,8 @@
     "expo": "^35.0.0",
     "graphql-tag": "^2.10.1",
     "ramda": "^0.26.1",
-    "react": "16.8.3",
-    "react-dom": "16.8.3",
+    "react": "16.10.2",
+    "react-dom": "16.10.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-gesture-handler": "~1.4.1",
     "react-native-reanimated": "kmagiera/react-native-reanimated#master",
@@ -36,8 +36,7 @@
   },
   "scripts": {
     "start:web": "expo start --web",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "node_modules/.bin/jest"
   },
   "browserslist": {
     "production": [
@@ -52,11 +51,19 @@
     ]
   },
   "devDependencies": {
+    "@apollo/react-testing": "^3.1.3",
     "@testing-library/cypress": "^5.0.2",
+    "@testing-library/jest-dom": "^4.1.2",
+    "@testing-library/react": "^9.3.0",
     "@types/react-native": "^0.60.21",
-    "cypress": "^3.4.1"
+    "cypress": "^3.4.1",
+    "jest-expo": "^35.0.0"
   },
   "resolutions": {
-    "apollo-client": "2.6.3"
+    "apollo-client": "2.6.3",
+    "webpack": "4.41.0"
+  },
+  "jest": {
+    "preset": "jest-expo/web"
   }
 }

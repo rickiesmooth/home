@@ -8,6 +8,7 @@ import { Container } from "../../components/Elements/Container/Container";
 import { Group } from "../../components/Features/Group/Group";
 import gql from "graphql-tag";
 import { getUser } from "../../graphql/queries";
+import { ThingsContext } from "../../store/things";
 
 const USER = gql`
   ${getUser}
@@ -18,12 +19,16 @@ export const Home = () => {
   const {
     state: { id }
   } = React.useContext(UserContext);
-  const { loading, error, data } = useQuery<GetUserQuery>(USER, {
+  const {
+    state: { things, loading }
+  } = React.useContext(ThingsContext);
+
+  const response = useQuery<GetUserQuery>(USER, {
     variables: { id }
   });
 
-  if (loading) return <Text>Loading</Text>;
-  if (error) return <Text>{error.message}</Text>;
+  if (response.loading) return <Text>Loading</Text>;
+  if (response.error) return <Text>{response.error.message}</Text>;
   return (
     <Container>
       <View
@@ -36,12 +41,14 @@ export const Home = () => {
           title="create group"
         />
       </View>
-      {data!.getUser!.groups!.items!.map(props => (
+      {response.data!.getUser!.groups!.items!.map(props => (
         <Group
           key={props!.id}
           devices={props!.devices || undefined}
+          things={things}
           id={props!.id}
           name={props!.name}
+          loading={loading}
         />
       ))}
     </Container>

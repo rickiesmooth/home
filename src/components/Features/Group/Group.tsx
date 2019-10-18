@@ -2,9 +2,7 @@ import React from "react";
 import { Text, ActivityIndicator } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import pipe from "ramda/es/pipe";
-import indexBy from "ramda/es/indexBy";
-import prop from "ramda/es/prop";
+import { pipe, indexBy, prop } from "ramda";
 import { ThingsContext } from "../../../store/things";
 import { DeleteGroupMutationVariables } from "../../../graphql/API";
 import { deleteGroup } from "../../../graphql/mutations";
@@ -17,16 +15,21 @@ const DELETE_GROUP = gql`
   ${deleteGroup}
 `;
 
-type Props = {
+export type Props = {
   devices?: string[];
+  things: ThingModel[];
+  loading: boolean;
   name: string;
   id: string;
 };
 
-export const Group: React.FC<Props> = ({ devices, name, id }) => {
-  const {
-    state: { things, loading }
-  } = React.useContext(ThingsContext);
+export const Group: React.FC<Props> = ({
+  loading,
+  devices = [],
+  things,
+  name,
+  id
+}) => {
   const [deleteGroup] = useMutation<DeleteGroupMutationVariables>(
     DELETE_GROUP,
     {
@@ -35,19 +38,21 @@ export const Group: React.FC<Props> = ({ devices, name, id }) => {
     }
   );
 
-  if (!devices || !devices.length) return <Text>no devices</Text>;
-
   const groupThings = React.useMemo(() => {
-    if (things.length) {
+    if (things.length && devices.length) {
       return pipe(
         () => indexBy(prop("id"), things),
         obj => devices.map(id => obj[id])
       )();
     }
-  }, [things]);
+  }, [things, devices]);
 
   const update = (val: Partial<ThingModelValues>) =>
     groupThings!.forEach(({ updateThing }) => updateThing(val));
+
+  if (!loading && (devices.length === 0 || things.length === 0)) {
+    return <Text>no devices</Text>;
+  }
 
   return (
     <Card
@@ -55,7 +60,7 @@ export const Group: React.FC<Props> = ({ devices, name, id }) => {
       onDelete={deleteGroup}
       subTitle={groupThings && groupThings.map(({ title }) => title).join(", ")}
     >
-      {groupThings ? (
+      {!loading && groupThings ? (
         <Controls
           values={group<ThingModel, "values">(groupThings, "values")}
           updateThing={update}
@@ -65,7 +70,7 @@ export const Group: React.FC<Props> = ({ devices, name, id }) => {
           )}
         />
       ) : (
-        <ActivityIndicator />
+        <ActivityIndicator data-testid="loader" />
       )}
     </Card>
   );

@@ -111,6 +111,6 @@ export type Action =
 
 export type ThingsActions = {
   login(data: boolean): void;
-  initThings(token: string): void;
+  initThings(): void;
   updateThing(thing: ThingModel, values: Partial<ThingModelValues>): void;
 };

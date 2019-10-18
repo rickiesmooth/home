@@ -8,8 +8,7 @@ const ThingsContext = React.createContext<ThingsContextInterface>(
 );
 
 const ThingsProvider: React.FC = ({ children }) => {
-  const memoizedReducer = React.useCallback(reducer, []);
-  const [state, dispatch] = React.useReducer(memoizedReducer, initialState);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const actions = useActions(state, dispatch);
 
