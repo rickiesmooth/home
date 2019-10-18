@@ -7,7 +7,7 @@
     "@expo/webpack-config": "^0.8.0",
     "@react-navigation/bottom-tabs": "^5.0.0-alpha.14",
     "@react-navigation/core": "^5.0.0-alpha.14",
-    "@react-navigation/native": "^5.0.0-alpha.11",
+    "@react-navigation/native": "^5.0.0-alpha.12",
     "@react-navigation/routers": "^5.0.0-alpha.9",
     "@react-navigation/stack": "^5.0.0-alpha.20",
     "@types/facebook-js-sdk": "^3.3.0",
