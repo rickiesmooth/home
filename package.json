@@ -17,7 +17,7 @@
     "@types/react": "^16.9.9",
     "@types/react-dom": "16.9.2",
     "apollo-client": "2.6.3",
-    "aws-amplify": "^1.2.2",
+    "aws-amplify": "^1.2.4",
     "aws-appsync": "^2.0.1",
     "babel-preset-expo": "^7.0.0",
     "expo": "^35.0.0",
