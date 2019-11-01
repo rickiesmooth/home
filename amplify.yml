@@ -11,11 +11,10 @@ frontend:
       commands:
         - yarn install
         - nvm use 10
-        - npm install --silent --global expo-cli
         - yarn
     build:
       commands:
-        - "expo build:web"
+        - "yarn expo build:web"
   artifacts:
     baseDirectory: web-build
     files:
