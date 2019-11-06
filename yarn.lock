@@ -1797,10 +1797,10 @@
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-5.0.0-alpha.14.tgz#55aca201758d9bc5819b67144bf18d5c0fd6140d"
   integrity sha512-yX1kQx4eVZoz5h/9Zra1TvVeId5gTknxsg8h7rAGG8p3dOfyhWLg/7dj5UiuoiPcYNiMHzz71dK/3OZ3gQrX4w==
 
-"@react-navigation/routers@^5.0.0-alpha.8", "@react-navigation/routers@^5.0.0-alpha.9":
-  version "5.0.0-alpha.11"
-  resolved "https://registry.yarnpkg.com/@react-navigation/routers/-/routers-5.0.0-alpha.11.tgz#64d76c3ff1a8a738ed8ca9e26ab8d18e1547355f"
-  integrity sha512-0T+tfxvs8uaXZ00jMZ/WGAh4L+0aEeHWjv6qj8xK3Vdet/3GtAxVhpVSL8dPhWJVXnB1bEo4hZaio+PU5r6XoA==
+"@react-navigation/routers@^5.0.0-alpha.12", "@react-navigation/routers@^5.0.0-alpha.8", "@react-navigation/routers@^5.0.0-alpha.9":
+  version "5.0.0-alpha.12"
+  resolved "https://registry.yarnpkg.com/@react-navigation/routers/-/routers-5.0.0-alpha.12.tgz#0f423651743d82f549b42c3bed5d2c590ca21494"
+  integrity sha512-zQhfi3Jqj6fT0T/atpMU2kb0fcQ6LjCy4nrGfTRbwogfO+KleFqABaG7OGl3WkjAxCN/7LOChem/L6LRFe6iTQ==
   dependencies:
     shortid "^2.2.15"
 
