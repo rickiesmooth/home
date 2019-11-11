@@ -1782,10 +1782,10 @@
   dependencies:
     "@react-navigation/routers" "^5.0.0-alpha.9"
 
-"@react-navigation/core@^5.0.0-alpha.17":
-  version "5.0.0-alpha.19"
-  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.0.0-alpha.19.tgz#55bfe0fe98bfc887dbdb8fae3feff539ac8ccb25"
-  integrity sha512-abeo829NEZ0kXptvZBwlDEG+HdiaMAv4ZZzDRdAmofzg2uNu/6zSXMdGYd9SgPsJdMN4K7Tb5co93XlChO7/UA==
+"@react-navigation/core@^5.0.0-alpha.22":
+  version "5.0.0-alpha.22"
+  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.0.0-alpha.22.tgz#dc9a021e5bb693f35d2b1a96992f9f43cf5bb64b"
+  integrity sha512-TDPUSCJeBzbAx+heEfe0tet84TOn0CNZGlP1dwJIn/0ZTb9wEdpf7FSqTGDKt7jWfmqeorp4SEcl4W5v3RXu4g==
   dependencies:
     escape-string-regexp "^2.0.0"
     query-string "^6.8.3"
