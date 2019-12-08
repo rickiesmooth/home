@@ -37,7 +37,8 @@
   },
   "scripts": {
     "start:web": "expo start --web",
-    "test": "node_modules/.bin/jest"
+    "test": "node_modules/.bin/jest",
+    "build": "yarn expo build:web"
   },
   "browserslist": {
     "production": [
