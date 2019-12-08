@@ -81,7 +81,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "cool-home-prod-20191008153925-deployment",
-					"S3Key": "amplify-builds/signup-614575616e3251314549-build.zip"
+					"S3Key": "amplify-builds/signup-36583231644e5331692b-build.zip"
 				}
 			}
 		},
