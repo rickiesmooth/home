@@ -1258,7 +1258,7 @@
     mv "~2"
     safe-json-stringify "~1"
 
-"@expo/config@^2.3.0", "@expo/config@^2.5.2":
+"@expo/config@^2.5.2":
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/@expo/config/-/config-2.5.2.tgz#2095883f95c9b2e99d36d7dd20c79a7cc4f3d72e"
   integrity sha512-/L38U6OHY4ivButcBGhh557FpLcWaCGaDF+QiAWNSdUEBEz0jjPs+Yx2f8cdQQ40UzooowmMO0lVYtzsC4dmUw==
@@ -1499,50 +1499,7 @@
     workbox-webpack-plugin "^3.6.3"
     yup "^0.27.0"
 
-"@expo/webpack-config@^0.8.0":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@expo/webpack-config/-/webpack-config-0.8.1.tgz#46b5fe690570fa9690983031e0e493f73840e2ca"
-  integrity sha512-R4mkY6jcorXO7sb2g9gUlUyRsa11M7xAGHE0DFilQEUCAHDfSH4eEr4Mg5NdWMHrr5Hi2W7rSt21UgJ2CjP88w==
-  dependencies:
-    "@babel/core" "^7.0.0"
-    "@babel/runtime" "^7.3.4"
-    "@expo/config" "^2.3.0"
-    "@expo/webpack-pwa-manifest-plugin" "^1.2.8"
-    "@types/yup" "^0.26.24"
-    babel-loader "8.0.6"
-    babel-preset-expo "^7.0.0"
-    brotli-webpack-plugin "^1.1.0"
-    chalk "^2.4.2"
-    clean-webpack-plugin "^1.0.1"
-    compression-webpack-plugin "^2.0.0"
-    copy-webpack-plugin "5.0.0"
-    css-loader "^2.1.1"
-    deep-diff "^1.0.2"
-    file-loader "4.2.0"
-    find-yarn-workspace-root "^1.2.1"
-    getenv "^0.7.0"
-    html-loader "^0.5.5"
-    html-webpack-plugin "4.0.0-alpha.2"
-    is-wsl "^2.0.0"
-    mini-css-extract-plugin "^0.5.0"
-    optimize-css-assets-webpack-plugin "^5.0.1"
-    pnp-webpack-plugin "^1.2.1"
-    postcss-safe-parser "^4.0.1"
-    prettier "^1.16.4"
-    progress-bar-webpack-plugin "^1.12.1"
-    react-dev-utils "9.0.3"
-    style-loader "^0.23.1"
-    terser-webpack-plugin "^1.2.3"
-    url-loader "^1.1.2"
-    webpack "4.39.0"
-    webpack-bundle-analyzer "^3.0.4"
-    webpack-deep-scope-plugin "1.6.0"
-    webpack-manifest-plugin "^2.0.4"
-    webpack-merge "^4.2.1"
-    workbox-webpack-plugin "^3.6.3"
-    yup "^0.27.0"
-
-"@expo/webpack-pwa-manifest-plugin@^1.2.14", "@expo/webpack-pwa-manifest-plugin@^1.2.8":
+"@expo/webpack-pwa-manifest-plugin@^1.2.14":
   version "1.2.14"
   resolved "https://registry.yarnpkg.com/@expo/webpack-pwa-manifest-plugin/-/webpack-pwa-manifest-plugin-1.2.14.tgz#2448f507229213f57bf320dc2756fd4de0fe6b6f"
   integrity sha512-0YQDUnyAg8FdiVce7ZoB7VsxA9nM3VMnEPDkdZYg+AwRPcVld40cdEljm4b+6daSHxmcRPhSYEDe4ouLbD2J/w==
