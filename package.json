@@ -14,7 +14,7 @@
     "@types/node": "12.11.5",
     "@types/ramda": "^0.26.33",
     "@types/react": "^16.9.9",
-    "@types/react-dom": "16.9.2",
+    "@types/react-dom": "16.9.5",
     "apollo-client": "2.6.3",
     "aws-amplify": "^2.2.0",
     "aws-appsync": "^3.0.2",
