@@ -12826,10 +12826,10 @@ react-native-reanimated@^1.4.0:
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.4.0.tgz#7f1acbf9be08492d834f512700570978052be2f9"
   integrity sha512-tO7nSNNP+iRLVbkcSS5GXyDBb7tSI02+XuRL3/S39EAr35rnvUy2JfeLUQG+fWSObJjnMVhasUDEUwlENk8IXw==
 
-react-native-safe-area-context@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-0.5.0.tgz#2185519ad6296dd7bd4ecc79864c02ca3a7f40b5"
-  integrity sha512-ukg9gO9jCdQIkYYwQf0/mp+67XiFSJH7BOxthoBbJq0x3f61Q/6U6E2v5MkcHO0vJg1Ul4/Pq77V+nR5eY/9fA==
+react-native-safe-area-context@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-0.7.0.tgz#1427db92111236e9714b4e020e193aa745f065dc"
+  integrity sha512-1zlpTKyGLvp/9yLarEXym7cFNJn1Z7b235wQtunweA3mVs7AzGgCz0YpKq7n0e/D/RTbqnFGuXhcZ9a5OL9r/g==
 
 react-native-screens@^2.0.0-alpha.5:
   version "2.0.0-alpha.17"
