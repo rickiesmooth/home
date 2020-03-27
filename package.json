@@ -20,7 +20,7 @@
     "aws-appsync": "^3.0.2",
     "babel-preset-expo": "^7.0.0",
     "expo": "^35.0.0",
-    "expo-cli": "^3.4.1",
+    "expo-cli": "^3.16.1",
     "graphql-tag": "^2.10.1",
     "ramda": "^0.26.1",
     "react": "16.11.0",
